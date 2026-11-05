@@ -409,21 +409,17 @@
     <span class="admin-link" id="admin-link-btn" onclick="toggleAdminPanel()">📊 Сводка</span>
   </div>
 
-  <!-- SCREEN 1: ВВОДНЫЙ ЭКРАН (НЕЙТРАЛЬНЫЙ ЗАГОЛОВОК ДЛЯ ЧИСТОТЫ ЭКСПЕРИМЕНТА) -->
+  <!-- SCREEN 1: ВВОДНЫЙ ЭКРАН -->
   <div id="screen-intro">
     <h2>Изучение феномена стремления к порядку</h2>
-    <p>Исследование психологических мотивов упорядочивания и зрительного контроля</p>
+    <p style="margin-bottom:24px; color:#cbd5e1; font-size:0.95rem; line-height:1.5;">
+      Сперва ответьте на 6 кратких вопросов, после чего пройдите 3 практических задания.
+    </p>
 
-    <div style="background:#0f172a; border:1px solid var(--border); border-radius:12px; padding:12px 14px; margin-bottom:18px; font-size:0.83rem; color:#94a3b8; text-align:left; line-height:1.5;">
-      <div style="font-weight:700; color:#e2e8f0; margin-bottom:4px;">ℹ️ О структуре исследования</div>
-      В исследовании изучаются особенности зрительного восприятия, субъективное ощущение завершенности и мотивы стремления к порядку.<br>
-      Сперва вам будет предложено ответить на 6 кратких вопросов (по 3 на страницу), после чего выполнить 3 интерактивных практических задания.
-    </div>
-
-    <div style="margin: 16px 0;">
-      <label style="display:block; font-size:0.85rem; color:#cbd5e1; margin-bottom:6px;">Код участника (любые 3 цифры)</label>
-      <input type="text" id="subj-code" value="" placeholder="Например: 418" maxlength="10" 
-             style="width:100%; padding:12px; background:#0f172a; border:1px solid var(--border); border-radius:10px; color:white; font-size:1rem; text-align:center;">
+    <div style="margin: 20px 0 24px 0;">
+      <label style="display:block; font-size:0.85rem; color:#94a3b8; margin-bottom:8px;">Код участника (любые 3 цифры)</label>
+      <input type="text" id="subj-code" value="" placeholder="Например 418" maxlength="10" 
+             style="width:100%; padding:14px; background:#0f172a; border:1px solid var(--border); border-radius:12px; color:white; font-size:1.1rem; text-align:center; outline:none;">
     </div>
 
     <button type="button" id="btn-start-exp" class="btn" onclick="startSurvey()">Начать исследование</button>
@@ -443,7 +439,7 @@
       <div class="scale-options">
         <div class="scale-btn" onclick="setQ('ha1', 0, this)">0<br><span style="font-size:0.65rem;">Никогда</span></div>
         <div class="scale-btn" onclick="setQ('ha1', 1, this)">1<br><span style="font-size:0.65rem;">Редко</span></div>
-        <div class="scale-btn active" onclick="setQ('ha1', 2, this)">2<br><span style="font-size:0.65rem;">Иногда</span></div>
+        <div class="scale-btn" onclick="setQ('ha1', 2, this)">2<br><span style="font-size:0.65rem;">Иногда</span></div>
         <div class="scale-btn" onclick="setQ('ha1', 3, this)">3<br><span style="font-size:0.65rem;">Часто</span></div>
         <div class="scale-btn" onclick="setQ('ha1', 4, this)">4<br><span style="font-size:0.65rem;">Постоянно</span></div>
       </div>
@@ -454,7 +450,7 @@
       <div class="scale-options">
         <div class="scale-btn" onclick="setQ('inc1', 0, this)">0<br><span style="font-size:0.65rem;">Никогда</span></div>
         <div class="scale-btn" onclick="setQ('inc1', 1, this)">1<br><span style="font-size:0.65rem;">Редко</span></div>
-        <div class="scale-btn active" onclick="setQ('inc1', 2, this)">2<br><span style="font-size:0.65rem;">Иногда</span></div>
+        <div class="scale-btn" onclick="setQ('inc1', 2, this)">2<br><span style="font-size:0.65rem;">Иногда</span></div>
         <div class="scale-btn" onclick="setQ('inc1', 3, this)">3<br><span style="font-size:0.65rem;">Часто</span></div>
         <div class="scale-btn" onclick="setQ('inc1', 4, this)">4<br><span style="font-size:0.65rem;">Постоянно</span></div>
       </div>
@@ -465,7 +461,7 @@
       <div class="scale-options">
         <div class="scale-btn" onclick="setQ('ha2', 0, this)">0<br><span style="font-size:0.65rem;">Никогда</span></div>
         <div class="scale-btn" onclick="setQ('ha2', 1, this)">1<br><span style="font-size:0.65rem;">Редко</span></div>
-        <div class="scale-btn active" onclick="setQ('ha2', 2, this)">2<br><span style="font-size:0.65rem;">Иногда</span></div>
+        <div class="scale-btn" onclick="setQ('ha2', 2, this)">2<br><span style="font-size:0.65rem;">Иногда</span></div>
         <div class="scale-btn" onclick="setQ('ha2', 3, this)">3<br><span style="font-size:0.65rem;">Часто</span></div>
         <div class="scale-btn" onclick="setQ('ha2', 4, this)">4<br><span style="font-size:0.65rem;">Постоянно</span></div>
       </div>
@@ -488,7 +484,7 @@
       <div class="scale-options">
         <div class="scale-btn" onclick="setQ('inc2', 0, this)">0<br><span style="font-size:0.65rem;">Никогда</span></div>
         <div class="scale-btn" onclick="setQ('inc2', 1, this)">1<br><span style="font-size:0.65rem;">Редко</span></div>
-        <div class="scale-btn active" onclick="setQ('inc2', 2, this)">2<br><span style="font-size:0.65rem;">Иногда</span></div>
+        <div class="scale-btn" onclick="setQ('inc2', 2, this)">2<br><span style="font-size:0.65rem;">Иногда</span></div>
         <div class="scale-btn" onclick="setQ('inc2', 3, this)">3<br><span style="font-size:0.65rem;">Часто</span></div>
         <div class="scale-btn" onclick="setQ('inc2', 4, this)">4<br><span style="font-size:0.65rem;">Постоянно</span></div>
       </div>
@@ -499,7 +495,7 @@
       <div class="scale-options">
         <div class="scale-btn" onclick="setQ('ha3', 0, this)">0<br><span style="font-size:0.65rem;">Никогда</span></div>
         <div class="scale-btn" onclick="setQ('ha3', 1, this)">1<br><span style="font-size:0.65rem;">Редко</span></div>
-        <div class="scale-btn active" onclick="setQ('ha3', 2, this)">2<br><span style="font-size:0.65rem;">Иногда</span></div>
+        <div class="scale-btn" onclick="setQ('ha3', 2, this)">2<br><span style="font-size:0.65rem;">Иногда</span></div>
         <div class="scale-btn" onclick="setQ('ha3', 3, this)">3<br><span style="font-size:0.65rem;">Часто</span></div>
         <div class="scale-btn" onclick="setQ('ha3', 4, this)">4<br><span style="font-size:0.65rem;">Постоянно</span></div>
       </div>
@@ -510,7 +506,7 @@
       <div class="scale-options">
         <div class="scale-btn" onclick="setQ('inc3', 0, this)">0<br><span style="font-size:0.65rem;">Никогда</span></div>
         <div class="scale-btn" onclick="setQ('inc3', 1, this)">1<br><span style="font-size:0.65rem;">Редко</span></div>
-        <div class="scale-btn active" onclick="setQ('inc3', 2, this)">2<br><span style="font-size:0.65rem;">Иногда</span></div>
+        <div class="scale-btn" onclick="setQ('inc3', 2, this)">2<br><span style="font-size:0.65rem;">Иногда</span></div>
         <div class="scale-btn" onclick="setQ('inc3', 3, this)">3<br><span style="font-size:0.65rem;">Часто</span></div>
         <div class="scale-btn" onclick="setQ('inc3', 4, this)">4<br><span style="font-size:0.65rem;">Постоянно</span></div>
       </div>
@@ -789,13 +785,13 @@
     durationSec: 0,
     durationFormatted: '',
     
-    // Scale items (0 to 4)
-    ha1: 2,
-    inc1: 2,
-    ha2: 2,
-    inc2: 2,
-    ha3: 2,
-    inc3: 2,
+    // Scale items (0 to 4, unselected by default)
+    ha1: null,
+    inc1: null,
+    ha2: null,
+    inc2: null,
+    ha3: null,
+    inc3: null,
     
     // Calculated scores (0 to 12)
     haTotal: 6,
@@ -866,6 +862,10 @@
   }
 
   function nextSurveyPage() {
+    if (exp.ha1 === null || exp.inc1 === null || exp.ha2 === null) {
+      alert('Пожалуйста, выберите ответ на каждый из трех вопросов перед переходом далее.');
+      return;
+    }
     playClickSound(550, 0.03);
     showScreen('screen-survey-p2');
   }
@@ -887,8 +887,12 @@
 
   // Start Task 1
   function startTask1() {
-    exp.haTotal = exp.ha1 + exp.ha2 + exp.ha3;
-    exp.incTotal = exp.inc1 + exp.inc2 + exp.inc3;
+    if (exp.inc2 === null || exp.ha3 === null || exp.inc3 === null) {
+      alert('Пожалуйста, выберите ответ на каждый из оставшихся вопросов перед переходом к заданиям.');
+      return;
+    }
+    exp.haTotal = (exp.ha1 || 0) + (exp.ha2 || 0) + (exp.ha3 || 0);
+    exp.incTotal = (exp.inc1 || 0) + (exp.inc2 || 0) + (exp.inc3 || 0);
 
     if (exp.incTotal > exp.haTotal + 1) {
       exp.profileDesc = 'Доминирование чувства незавершенности (Incompleteness)';
