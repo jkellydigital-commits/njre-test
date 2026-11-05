@@ -605,29 +605,44 @@
 
   <!-- SCREEN 5: ЗАДАНИЕ 3 — УПОРЯДОЧИВАНИЕ ПАТТЕРНА (КНИЖНАЯ ПОЛКА) -->
   <div id="screen-task3" style="display:none;">
-    <h2>Задание 3 — Нарушение строя на полке</h2>
-    <p>Одна из книг на полке нарушает стройную последовательность ряда.</p>
+    <h2>Задание 3 — Нарушение строя и облегчение порядка</h2>
+    <p>Что проверяем: силу перцептивного дискомфорта при сбое визуального строя и эмоциональное облегчение («щелчок завершенности») при наведении порядка.</p>
 
     <div class="stimulus-stage">
       <div class="bookshelf-stage" id="bookshelf-el">
         <div class="book book-aligned" style="height:100px; background:#0284c7;">Том 1</div>
         <div class="book book-aligned" style="height:108px; background:#0369a1;">Том 2</div>
         <div class="book book-aligned" style="height:114px; background:#075985;">Том 3</div>
-        <div class="book book-misaligned" id="crooked-book" style="height:110px; background:#d97706;" onclick="straightenBook()">Том 4</div>
+        <div class="book book-misaligned" id="crooked-book" style="height:110px; background:#d97706; cursor:pointer;" onclick="straightenBook()">Том 4</div>
         <div class="book book-aligned" style="height:120px; background:#1e3a8a;">Том 5</div>
         <div class="book book-aligned" style="height:125px; background:#172554;">Том 6</div>
       </div>
       <div id="shelf-status-text" style="font-size:0.85rem; color:#fbbf24; margin-top:14px; font-weight:600;">
-        👆 Нажмите на перекошенную книгу, чтобы поставить ее ровно
+        ⚠️ Ряд нарушен — Том 4 перекошен
       </div>
     </div>
 
+    <!-- Вопрос ДО выравнивания -->
+    <div class="slider-box" id="shelf-tension-box">
+      <div class="slider-header">
+        <span>1. Насколько сильное внутреннее раздражение («не так, как надо») вызывает эта выбивающаяся книга?</span>
+        <span class="slider-val" id="val-shelf-tension">50%</span>
+      </div>
+      <input type="range" min="0" max="100" value="50" oninput="document.getElementById('val-shelf-tension').innerText = this.value + '%'; exp.shelfTension = parseInt(this.value);">
+    </div>
+
+    <!-- Кнопка действия -->
+    <button type="button" class="btn" id="btn-straighten-book" style="margin-bottom:14px; background:#f59e0b;" onclick="straightenBook()">
+      🔧 Поставить книгу ровно на полке
+    </button>
+
+    <!-- Вопрос ПОСЛЕ выравнивания -->
     <div class="slider-box" id="shelf-relief-box" style="display:none;">
       <div class="slider-header">
-        <span>Насколько сильное облегчение («щелчок завершенности») вы почувствовали, когда ряд выровнялся?</span>
-        <span class="slider-val" id="val-shelf-relief">70%</span>
+        <span>2. Насколько сильное облегчение («щелчок завершенности») вы почувствовали, когда идеальный строй восстановился?</span>
+        <span class="slider-val" id="val-shelf-relief">75%</span>
       </div>
-      <input type="range" min="0" max="100" value="70" oninput="document.getElementById('val-shelf-relief').innerText = this.value + '%'; exp.shelfRelief = parseInt(this.value);">
+      <input type="range" min="0" max="100" value="75" oninput="document.getElementById('val-shelf-relief').innerText = this.value + '%'; exp.shelfRelief = parseInt(this.value);">
     </div>
 
     <button type="button" class="btn btn-success" id="btn-finish-shelf" style="display:none;" onclick="finishExperiment()">
@@ -996,6 +1011,11 @@
       statusText.innerHTML = '✨ Идеальный порядок восстановлен!';
       statusText.style.color = '#34d399';
     }
+    
+    // Hide action button, show relief question & finish button
+    const actionBtn = document.getElementById('btn-straighten-book');
+    if (actionBtn) actionBtn.style.display = 'none';
+    
     const reliefBox = document.getElementById('shelf-relief-box');
     if (reliefBox) reliefBox.style.display = 'block';
     const finishBtn = document.getElementById('btn-finish-shelf');
