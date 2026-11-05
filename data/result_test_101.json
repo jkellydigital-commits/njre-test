@@ -1,0 +1,14 @@
+{
+  "subj_id": "Участник-101",
+  "profile": "NJRE-доминирующий (Incompleteness > HA)",
+  "inc_score": 10,
+  "ha_score": 3,
+  "oscillations": 14,
+  "final_angle": "0.2",
+  "pretension": 35,
+  "delta_delay_tension": 45,
+  "shelf_relief": 85,
+  "duration_sec": 125,
+  "duration_short": "02:05",
+  "timestamp": "05.11.2026, 18:45:00"
+}
