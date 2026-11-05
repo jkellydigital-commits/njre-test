@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Эксперимент ОКР — Феномен «Не так» (NJRE)</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>Изучение мотивов стремления к порядку</title>
   <style>
     :root {
       --bg: #0b0f19;
@@ -25,7 +28,12 @@
       flex-direction: column;
       align-items: center;
       padding: 16px;
-      user-select: none;
+    }
+    input, button {
+      font-family: inherit;
+      user-select: auto;
+      -webkit-user-select: auto;
+      touch-action: manipulation;
     }
     .app-container {
       width: 100%;
@@ -261,8 +269,10 @@
       align-items: center;
       justify-content: center;
       gap: 8px;
+      touch-action: manipulation;
     }
     .btn:hover { background: var(--accent-hover); }
+    .btn:active { transform: scale(0.98); }
     .btn:disabled { opacity: 0.4; cursor: not-allowed; }
     .btn-secondary {
       background: transparent;
@@ -323,8 +333,10 @@
       cursor: pointer;
       transition: background 0.15s;
       text-align: center;
+      touch-action: manipulation;
     }
     .step-btn:hover { background: #334155; }
+    .step-btn:active { background: #475569; }
 
     /* Survey question cards */
     .scale-group {
@@ -358,6 +370,7 @@
       text-align: center;
       cursor: pointer;
       transition: all 0.15s;
+      touch-action: manipulation;
     }
     .scale-btn.active {
       background: var(--accent);
@@ -396,15 +409,15 @@
     <span class="admin-link" id="admin-link-btn" onclick="toggleAdminPanel()">📊 Сводка</span>
   </div>
 
-  <!-- SCREEN 1: ВВОДНЫЙ ЭКРАН -->
+  <!-- SCREEN 1: ВВОДНЫЙ ЭКРАН (НЕЙТРАЛЬНЫЙ ЗАГОЛОВОК ДЛЯ ЧИСТОТЫ ЭКСПЕРИМЕНТА) -->
   <div id="screen-intro">
-    <h2>Эксперимент по феномену «Не так» (NJRE)</h2>
-    <p>Исследование психологических мотивов упорядочивания и перцептивного контроля</p>
+    <h2>Изучение мотивов стремления к порядку</h2>
+    <p>Исследование психологических мотивов упорядочивания и зрительного контроля</p>
 
     <div style="background:#0f172a; border:1px solid var(--border); border-radius:12px; padding:12px 14px; margin-bottom:18px; font-size:0.83rem; color:#94a3b8; text-align:left; line-height:1.5;">
-      <div style="font-weight:700; color:#e2e8f0; margin-bottom:4px;">ℹ️ О структуре эксперимента</div>
-      В исследовании изучаются два самостоятельных мотива: стремление предотвратить опасность и внутренняя потребность устранить перцептивную незавершенность.<br>
-      Сперва вы ответите на 6 кратких вопросов, после чего выполните 3 интерактивных практических задания.
+      <div style="font-weight:700; color:#e2e8f0; margin-bottom:4px;">ℹ️ О структуре исследования</div>
+      В исследовании изучаются особенности зрительного восприятия, субъективное ощущение завершенности и мотивы стремления к порядку.<br>
+      Сперва вам будет предложено ответить на 6 кратких вопросов (по 3 на страницу), после чего выполнить 3 интерактивных практических задания.
     </div>
 
     <div style="margin: 16px 0;">
@@ -413,7 +426,7 @@
              style="width:100%; padding:12px; background:#0f172a; border:1px solid var(--border); border-radius:10px; color:white; font-size:1rem; text-align:center;">
     </div>
 
-    <button class="btn" onclick="startSurvey()">Начать исследование</button>
+    <button type="button" id="btn-start-exp" class="btn" onclick="startSurvey()">Начать исследование</button>
   </div>
 
   <!-- SCREEN 2: ОПРОСНИК (ШАГ 1 ИЗ 2: ВОПРОСЫ 1–3) -->
@@ -458,7 +471,7 @@
       </div>
     </div>
 
-    <button class="btn" onclick="nextSurveyPage()">Далее (вопросы 4–6) →</button>
+    <button type="button" class="btn" onclick="nextSurveyPage()">Далее (вопросы 4–6) →</button>
   </div>
 
   <!-- SCREEN 2: ОПРОСНИК (ШАГ 2 ИЗ 2: ВОПРОСЫ 4–6) -->
@@ -504,8 +517,8 @@
     </div>
 
     <div style="display:flex; gap:10px;">
-      <button class="btn btn-secondary" style="flex:1;" onclick="prevSurveyPage()">← Назад</button>
-      <button class="btn" style="flex:2;" onclick="startTask1()">К заданиям →</button>
+      <button type="button" class="btn btn-secondary" style="flex:1;" onclick="prevSurveyPage()">← Назад</button>
+      <button type="button" class="btn" style="flex:2;" onclick="startTask1()">К заданиям →</button>
     </div>
   </div>
 
@@ -540,14 +553,14 @@
       <div style="font-size:0.85rem; color:#cbd5e1; margin-bottom:8px; text-align:center;">Регулировка положения картины —</div>
       <input type="range" id="pic-slider" min="-15" max="15" step="0.1" value="-7.5" oninput="onAngleSlider(this.value)">
       <div class="stepper-row">
-        <button class="step-btn" onclick="adjustAngle(-0.8)">◀◀ Влево</button>
-        <button class="step-btn" onclick="adjustAngle(-0.15)">‹ Чуть влево</button>
-        <button class="step-btn" onclick="adjustAngle(+0.15)">Чуть вправо ›</button>
-        <button class="step-btn" onclick="adjustAngle(+0.8)">Вправо ▶▶</button>
+        <button type="button" class="step-btn" onclick="adjustAngle(-0.8)">◀◀ Влево</button>
+        <button type="button" class="step-btn" onclick="adjustAngle(-0.15)">‹ Чуть влево</button>
+        <button type="button" class="step-btn" onclick="adjustAngle(+0.15)">Чуть вправо ›</button>
+        <button type="button" class="step-btn" onclick="adjustAngle(+0.8)">Вправо ▶▶</button>
       </div>
     </div>
 
-    <button class="btn btn-success" onclick="finishTask1()">✓ Вот теперь висит идеально (Just Right)</button>
+    <button type="button" class="btn btn-success" onclick="finishTask1()">✓ Вот теперь висит идеально (Just Right)</button>
   </div>
 
   <!-- SCREEN 4: ЗАДАНИЕ 2 — ЗАДЕРЖКА ВЫРАВНИВАНИЯ (ТОЛЕРАНТНОСТЬ К НЕЗАВЕРШЕННОСТИ) -->
@@ -585,7 +598,7 @@
       <input type="range" id="delay-tension-slider" min="0" max="100" value="50" oninput="onDelayTensionInput(this.value)">
     </div>
 
-    <button class="btn" id="btn-fix-clock" disabled onclick="fixClockAndProceed()">
+    <button type="button" class="btn" id="btn-fix-clock" disabled onclick="fixClockAndProceed()">
       Выровнять часы (ждите 15 сек)
     </button>
   </div>
@@ -617,7 +630,7 @@
       <input type="range" min="0" max="100" value="70" oninput="document.getElementById('val-shelf-relief').innerText = this.value + '%'; exp.shelfRelief = parseInt(this.value);">
     </div>
 
-    <button class="btn btn-success" id="btn-finish-shelf" style="display:none;" onclick="finishExperiment()">
+    <button type="button" class="btn btn-success" id="btn-finish-shelf" style="display:none;" onclick="finishExperiment()">
       Завершить и перейти к обсуждению результатов →
     </button>
   </div>
@@ -662,8 +675,8 @@
       ⏳ Отправка результата в базу данных исследователя...
     </div>
 
-    <button class="btn" style="margin-bottom:10px; background:#10b981;" onclick="copyStudentSummary()">📋 Скопировать мои результаты</button>
-    <button class="btn btn-secondary" onclick="restartExperiment()">Пройти заново</button>
+    <button type="button" class="btn" style="margin-bottom:10px; background:#10b981;" onclick="copyStudentSummary()">📋 Скопировать мои результаты</button>
+    <button type="button" class="btn btn-secondary" onclick="restartExperiment()">Пройти заново</button>
   </div>
 
   <!-- SCREEN 7: ПАНЕЛЬ ИССЛЕДОВАТЕЛЯ / СВОДКА -->
@@ -686,7 +699,7 @@
       <a href="https://docs.google.com/spreadsheets/d/16WNtCaBnMpH9YKDX3AGCBv_r7RUiANtL8Yorx-9ei-o/edit" target="_blank" class="btn" style="width:auto; padding:6px 14px; font-size:0.8rem; background:#0284c7; text-decoration:none;">
         📊 Открыть Google Таблицу NJRE
       </a>
-      <button class="btn btn-secondary" style="width:auto; padding:6px 14px; font-size:0.8rem;" onclick="closeAdminPanel()">✕ Закрыть</button>
+      <button type="button" class="btn btn-secondary" style="width:auto; padding:6px 14px; font-size:0.8rem;" onclick="closeAdminPanel()">✕ Закрыть</button>
     </div>
 
     <div id="admin-summary-box" style="background:#0f172a; padding:14px; border-radius:12px; margin-bottom:14px; font-size:0.85rem; border:1px solid var(--border); line-height:1.5;">
@@ -712,20 +725,30 @@
     </div>
 
     <div style="display:flex; gap:10px; margin-top:14px;">
-      <button class="btn btn-secondary" style="font-size:0.85rem; padding:10px;" onclick="refreshAdminData()">🔄 Обновить сводку</button>
-      <button class="btn btn-secondary" style="font-size:0.85rem; padding:10px;" onclick="downloadDataCSV()">📥 Скачать CSV</button>
+      <button type="button" class="btn btn-secondary" style="font-size:0.85rem; padding:10px;" onclick="refreshAdminData()">🔄 Обновить сводку</button>
+      <button type="button" class="btn btn-secondary" style="font-size:0.85rem; padding:10px;" onclick="downloadDataCSV()">📥 Скачать CSV</button>
     </div>
   </div>
 
 </div>
 
 <script>
+  // Catch and display any mobile JS errors visually
+  window.onerror = function(msg, url, lineNo, columnNo, error) {
+    console.error('App Error:', msg, lineNo);
+    return false;
+  };
+
   // Web Audio Context for subtle tactile feedback
   const AudioCtx = window.AudioContext || window.webkitAudioContext;
   let audioCtx = null;
   function playClickSound(freq = 600, duration = 0.04) {
     try {
-      if (!audioCtx) audioCtx = new AudioCtx();
+      if (!audioCtx && AudioCtx) audioCtx = new AudioCtx();
+      if (!audioCtx) return;
+      if (audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
       osc.type = 'sine';
@@ -785,10 +808,21 @@
   let globalLoadedData = [];
 
   function showScreen(screenId) {
-    const screens = ['screen-intro', 'screen-survey-p1', 'screen-survey-p2', 'screen-task1', 'screen-task2', 'screen-task3', 'screen-report', 'screen-admin'];
+    const screens = [
+      'screen-intro',
+      'screen-survey-p1',
+      'screen-survey-p2',
+      'screen-task1',
+      'screen-task2',
+      'screen-task3',
+      'screen-report',
+      'screen-admin'
+    ];
     screens.forEach(s => {
       const el = document.getElementById(s);
-      if (el) el.style.display = (s === screenId) ? 'block' : 'none';
+      if (el) {
+        el.style.display = (s === screenId) ? 'block' : 'none';
+      }
     });
 
     const adminBtn = document.getElementById('admin-link-btn');
@@ -799,14 +833,21 @@
         adminBtn.style.display = 'none';
       }
     }
-    window.scrollTo(0, 0);
+    try { window.scrollTo(0, 0); } catch(e){}
   }
 
   function startSurvey() {
-    const code = document.getElementById('subj-code').value.trim();
-    exp.subjId = code || 'N-' + Math.floor(100 + Math.random()*900);
-    exp.startTime = Date.now();
-    showScreen('screen-survey-p1');
+    try {
+      playClickSound(520, 0.04);
+      const codeInput = document.getElementById('subj-code');
+      const code = codeInput ? codeInput.value.trim() : '';
+      exp.subjId = code || 'N-' + Math.floor(100 + Math.random()*900);
+      exp.startTime = Date.now();
+      showScreen('screen-survey-p1');
+    } catch(err) {
+      console.error(err);
+      showScreen('screen-survey-p1');
+    }
   }
 
   function nextSurveyPage() {
@@ -822,9 +863,11 @@
   function setQ(key, val, btnEl) {
     exp[key] = val;
     playClickSound(400 + val*40, 0.03);
-    const parent = btnEl.parentElement;
-    parent.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('active'));
-    btnEl.classList.add('active');
+    if (btnEl && btnEl.parentElement) {
+      const parent = btnEl.parentElement;
+      parent.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('active'));
+      btnEl.classList.add('active');
+    }
   }
 
   // Start Task 1
@@ -862,7 +905,8 @@
   function setAngle(angle) {
     angle = Math.max(-15, Math.min(15, angle));
     exp.currentAngle = angle;
-    document.getElementById('pic-slider').value = angle;
+    const slider = document.getElementById('pic-slider');
+    if (slider) slider.value = angle;
     playClickSound(520, 0.02);
 
     // Track zero-crossings (oscillations around perfect zero)
@@ -893,8 +937,10 @@
     let timeLeft = 15;
     const countEl = document.getElementById('timer-countdown');
     const btn = document.getElementById('btn-fix-clock');
-    btn.disabled = true;
-    btn.innerText = `Выровнять часы (ждите ${timeLeft} сек)`;
+    if (btn) {
+      btn.disabled = true;
+      btn.innerText = `Выровнять часы (ждите ${timeLeft} сек)`;
+    }
 
     if (timerInterval) clearInterval(timerInterval);
     timerInterval = setInterval(() => {
@@ -904,22 +950,26 @@
 
       if (timeLeft <= 0) {
         clearInterval(timerInterval);
-        btn.disabled = false;
-        btn.innerText = '✓ Выровнять часы прямо сейчас';
-        btn.style.background = '#10b981';
+        if (btn) {
+          btn.disabled = false;
+          btn.innerText = '✓ Выровнять часы прямо сейчас';
+          btn.style.background = '#10b981';
+        }
         playClickSound(880, 0.1);
       }
     }, 1000);
   }
 
   function onDelayTensionInput(val) {
-    document.getElementById('val-delay-tension').innerText = val + '%';
+    const valEl = document.getElementById('val-delay-tension');
+    if (valEl) valEl.innerText = val + '%';
     exp.delayTensionEnd = parseInt(val);
   }
 
   function fixClockAndProceed() {
     playClickSound(750, 0.06);
-    document.getElementById('clock-el').style.transform = 'rotate(0deg)';
+    const clockEl = document.getElementById('clock-el');
+    if (clockEl) clockEl.style.transform = 'rotate(0deg)';
     exp.deltaDelayTension = exp.delayTensionEnd - exp.delayTensionStart;
     setTimeout(() => {
       startTask3();
@@ -934,15 +984,22 @@
   function straightenBook() {
     playClickSound(900, 0.07);
     const book = document.getElementById('crooked-book');
-    book.className = 'book book-aligned';
-    book.style.transform = 'rotate(0deg) translateY(0)';
-    book.style.border = 'none';
-    book.style.background = '#0284c7';
+    if (book) {
+      book.className = 'book book-aligned';
+      book.style.transform = 'rotate(0deg) translateY(0)';
+      book.style.border = 'none';
+      book.style.background = '#0284c7';
+    }
 
-    document.getElementById('shelf-status-text').innerHTML = '✨ Идеальный порядок восстановлен!';
-    document.getElementById('shelf-status-text').style.color = '#34d399';
-    document.getElementById('shelf-relief-box').style.display = 'block';
-    document.getElementById('btn-finish-shelf').style.display = 'block';
+    const statusText = document.getElementById('shelf-status-text');
+    if (statusText) {
+      statusText.innerHTML = '✨ Идеальный порядок восстановлен!';
+      statusText.style.color = '#34d399';
+    }
+    const reliefBox = document.getElementById('shelf-relief-box');
+    if (reliefBox) reliefBox.style.display = 'block';
+    const finishBtn = document.getElementById('btn-finish-shelf');
+    if (finishBtn) finishBtn.style.display = 'block';
   }
 
   // Finish and generate report
@@ -959,26 +1016,35 @@
 
     showScreen('screen-report');
 
-    document.getElementById('rep-subj').innerText = exp.subjId;
-    document.getElementById('rep-profile').innerText = exp.profileDesc;
-    document.getElementById('rep-inc-score').innerText = `${exp.incTotal} / 12 баллов`;
-    document.getElementById('rep-ha-score').innerText = `${exp.haTotal} / 12 баллов`;
-    document.getElementById('rep-osc-val').innerText = `${exp.oscillations} микро-подстроек`;
-    document.getElementById('rep-angle-val').innerText = `${Math.abs(exp.currentAngle).toFixed(1)}° от нуля`;
+    const repSubj = document.getElementById('rep-subj');
+    if (repSubj) repSubj.innerText = exp.subjId;
+    const repProf = document.getElementById('rep-profile');
+    if (repProf) repProf.innerText = exp.profileDesc;
+    const repInc = document.getElementById('rep-inc-score');
+    if (repInc) repInc.innerText = `${exp.incTotal} / 12 баллов`;
+    const repHa = document.getElementById('rep-ha-score');
+    if (repHa) repHa.innerText = `${exp.haTotal} / 12 баллов`;
+    const repOsc = document.getElementById('rep-osc-val');
+    if (repOsc) repOsc.innerText = `${exp.oscillations} микро-подстроек`;
+    const repAng = document.getElementById('rep-angle-val');
+    if (repAng) repAng.innerText = `${Math.abs(exp.currentAngle).toFixed(1)}° от нуля`;
     
     const tolEl = document.getElementById('rep-tolerance-val');
-    if (exp.deltaDelayTension > 5) {
-      tolEl.innerText = `Напряжение выросло на +${exp.deltaDelayTension}%`;
-      tolEl.className = 'metric-delta delta-drop';
-    } else if (exp.deltaDelayTension < -5) {
-      tolEl.innerText = `Дискомфорт снизился на ${exp.deltaDelayTension}%`;
-      tolEl.className = 'metric-delta delta-up';
-    } else {
-      tolEl.innerText = 'Стабильное состояние (0%)';
-      tolEl.className = 'metric-delta delta-same';
+    if (tolEl) {
+      if (exp.deltaDelayTension > 5) {
+        tolEl.innerText = `Напряжение выросло на +${exp.deltaDelayTension}%`;
+        tolEl.className = 'metric-delta delta-drop';
+      } else if (exp.deltaDelayTension < -5) {
+        tolEl.innerText = `Дискомфорт снизился на ${exp.deltaDelayTension}%`;
+        tolEl.className = 'metric-delta delta-up';
+      } else {
+        tolEl.innerText = 'Стабильное состояние (0%)';
+        tolEl.className = 'metric-delta delta-same';
+      }
     }
 
-    document.getElementById('rep-time-val').innerText = exp.durationFormatted;
+    const repTime = document.getElementById('rep-time-val');
+    if (repTime) repTime.innerText = exp.durationFormatted;
 
     const payload = {
       subj_id: exp.subjId,
@@ -1003,10 +1069,11 @@
     } catch(e){}
 
     const statusEl = document.getElementById('save-status');
-    statusEl.innerHTML = '⏳ Отправка результата в базу данных исследователя...';
+    if (statusEl) {
+      statusEl.innerHTML = '⏳ Отправка результата в базу данных исследователя...';
+    }
 
     // Direct submit to GitHub repo
-    let savedToCloud = false;
     try {
       const safeId = String(payload.subj_id).replace(/[^a-zA-Z0-9_-]/g, '_');
       const fileName = `result_${Date.now()}_${safeId}.json`;
@@ -1028,17 +1095,19 @@
       })
       .then(res => {
         if (res.ok) {
-          statusEl.innerHTML = '✅ Данные успешно зафиксированы в облачной базе!';
-          statusEl.style.color = '#34d399';
+          if (statusEl) {
+            statusEl.innerHTML = '✅ Данные успешно зафиксированы в облачной базе!';
+            statusEl.style.color = '#34d399';
+          }
         } else {
-          statusEl.innerHTML = '💾 Сохранено локально на вашем устройстве.';
+          if (statusEl) statusEl.innerHTML = '💾 Сохранено локально на вашем устройстве.';
         }
       })
       .catch(() => {
-        statusEl.innerHTML = '💾 Сохранено локально на вашем устройстве.';
+        if (statusEl) statusEl.innerHTML = '💾 Сохранено локально на вашем устройстве.';
       });
     } catch(e){
-      statusEl.innerHTML = '💾 Сохранено локально.';
+      if (statusEl) statusEl.innerHTML = '💾 Сохранено локально.';
     }
   }
 
@@ -1099,7 +1168,7 @@
 
   function loadAdminData() {
     const summaryBox = document.getElementById('admin-summary-box');
-    summaryBox.innerHTML = '⏳ Загрузка результатов из базы GitHub...';
+    if (summaryBox) summaryBox.innerHTML = '⏳ Загрузка результатов из базы GitHub...';
 
     let allItems = [];
 
@@ -1149,9 +1218,11 @@
   function renderAdminTable(data) {
     globalLoadedData = data;
     const tbody = document.getElementById('admin-table-body');
+    if (!tbody) return;
     if (!data || data.length === 0) {
       tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">Пока нет отправленных результатов участников</td></tr>';
-      document.getElementById('admin-summary-box').innerHTML = 'В базе пока нет записей участников.';
+      const sumBox = document.getElementById('admin-summary-box');
+      if (sumBox) sumBox.innerHTML = 'В базе пока нет записей участников.';
       return;
     }
 
@@ -1190,16 +1261,32 @@
     const avgOsc = (totalOsc / n).toFixed(1);
     const avgAng = (totalAngle / n).toFixed(2);
 
-    document.getElementById('admin-summary-box').innerHTML = `
-      <b>Всего протестировано участников:</b> ${data.length} чел.<br><br>
-      <b>Средние баллы мотивации (макс. 12):</b><br>
-      • Чувство незавершенности (Incompleteness): <b style="color:#34d399;">${avgInc} / 12</b><br>
-      • Избегание угрозы (Harm Avoidance): <b style="color:#f87171;">${avgHA} / 12</b><br><br>
-      <b>Поведение при выравнивании:</b><br>
-      • Среднее число осцилляций (колебаний баланса): <b>${avgOsc} подстроек</b><br>
-      • Средняя погрешность от математического нуля: <b>${avgAng}°</b>
-    `;
+    const sumBox = document.getElementById('admin-summary-box');
+    if (sumBox) {
+      sumBox.innerHTML = `
+        <b>Всего протестировано участников:</b> ${data.length} чел.<br><br>
+        <b>Средние баллы мотивации (макс. 12):</b><br>
+        • Чувство незавершенности (Incompleteness): <b style="color:#34d399;">${avgInc} / 12</b><br>
+        • Избегание угрозы (Harm Avoidance): <b style="color:#f87171;">${avgHA} / 12</b><br><br>
+        <b>Поведение при выравнивании:</b><br>
+        • Среднее число осцилляций (колебаний баланса): <b>${avgOsc} подстроек</b><br>
+        • Средняя погрешность от математического нуля: <b>${avgAng}°</b>
+      `;
+    }
   }
+
+  // Explicit touch & click binding for mobile resilience
+  window.addEventListener('DOMContentLoaded', function() {
+    const startBtn = document.getElementById('btn-start-exp');
+    if (startBtn) {
+      startBtn.addEventListener('click', function(e) {
+        startSurvey();
+      });
+      startBtn.addEventListener('touchend', function(e) {
+        startSurvey();
+      });
+    }
+  });
 </script>
 </body>
 </html>
