@@ -6,7 +6,7 @@
   <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Expires" content="0">
-  <title>Изучение мотивов стремления к порядку</title>
+  <title>Изучение феномена стремления к порядку</title>
   <style>
     :root {
       --bg: #0b0f19;
@@ -411,7 +411,7 @@
 
   <!-- SCREEN 1: ВВОДНЫЙ ЭКРАН (НЕЙТРАЛЬНЫЙ ЗАГОЛОВОК ДЛЯ ЧИСТОТЫ ЭКСПЕРИМЕНТА) -->
   <div id="screen-intro">
-    <h2>Изучение мотивов стремления к порядку</h2>
+    <h2>Изучение феномена стремления к порядку</h2>
     <p>Исследование психологических мотивов упорядочивания и зрительного контроля</p>
 
     <div style="background:#0f172a; border:1px solid var(--border); border-radius:12px; padding:12px 14px; margin-bottom:18px; font-size:0.83rem; color:#94a3b8; text-align:left; line-height:1.5;">
@@ -1115,18 +1115,13 @@
     const sign = exp.deltaDelayTension > 0 ? '+' : '';
     const str = `Участник ${exp.subjId} | Незавершенность (Incompleteness): ${exp.incTotal}/12 | Избегание угрозы (Harm Avoidance): ${exp.haTotal}/12 | Осцилляции: ${exp.oscillations} | Дискомфорт задержки: ${sign}${exp.deltaDelayTension}% | Время: ${exp.durationFormatted}`;
     navigator.clipboard.writeText(str).then(() => {
-      alert('Результаты скопированы в буфер обмена!
-
-' + str + '
-
-Вы можете отправить их в общий чат семинара.');
+      alert('Результаты скопированы в буфер обмена!\n\n' + str + '\n\nВы можете отправить их в общий чат семинара.');
     });
   }
 
   function downloadDataCSV() {
     const csvContent = "data:text/csv;charset=utf-8,﻿" + 
-      "Код;Профиль;Балл_Incompleteness;Балл_Harm_Avoidance;Осцилляции;Точность_угла;Дискомфорт_задержки;Облегчение_порядка;Длительность_сек;Дата_сдачи
-" +
+      "Код;Профиль;Балл_Incompleteness;Балл_Harm_Avoidance;Осцилляции;Точность_угла;Дискомфорт_задержки;Облегчение_порядка;Длительность_сек;Дата_сдачи\n" +
       `"${exp.subjId}";"${exp.profileDesc}";${exp.incTotal};${exp.haTotal};${exp.oscillations};${Math.abs(exp.currentAngle).toFixed(1)};${exp.deltaDelayTension};${exp.shelfRelief};${exp.durationSec};"${new Date().toLocaleString('ru-RU')}"
 `;
     const encodedUri = encodeURI(csvContent);
