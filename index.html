@@ -3,292 +3,516 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
-  <title>Эксперимент — Сенсорное восприятие и феномен «Не так» (NJRE)</title>
+  <title>Эксперимент ОКР — Феномен «Не так» (NJRE)</title>
   <style>
     :root {
-      --primary: #4f46e5;
-      --primary-hover: #4338ca;
-      --bg: #0f172a;
+      --bg: #0b0f19;
       --card-bg: #1e293b;
-      --text: #f8fafc;
+      --text-main: #f8fafc;
       --text-muted: #94a3b8;
-      --accent: #f59e0b;
-      --danger: #ef4444;
+      --accent: #6366f1;
+      --accent-hover: #4f46e5;
       --success: #10b981;
       --border: #334155;
     }
-    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
     body {
-      margin: 0; padding: 12px;
-      background: var(--bg); color: var(--text);
+      background-color: var(--bg);
+      color: var(--text-main);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+      user-select: none;
     }
-    .container {
-      width: 100%; max-width: 540px;
-      background: var(--card-bg); border: 1px solid var(--border);
-      border-radius: 20px; padding: 22px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-      position: relative; overflow: hidden;
+    .app-container {
+      width: 100%;
+      max-width: 480px;
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 24px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 8px 10px -6px rgba(0, 0, 0, 0.4);
+      border: 1px solid var(--border);
+      position: relative;
     }
     .top-bar {
-      display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; min-height: 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      min-height: 28px;
     }
     .badge {
-      font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
-      padding: 4px 10px; border-radius: 9999px; background: rgba(79, 70, 229, 0.2); color: #818cf8; border: 1px solid rgba(129, 140, 248, 0.3);
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      background: rgba(99, 102, 241, 0.15);
+      color: #818cf8;
+      border-radius: 999px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
     }
     .admin-link {
-      color: var(--text-muted); font-size: 0.85rem; text-decoration: none; cursor: pointer; padding: 4px 8px; border-radius: 6px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      text-decoration: underline;
     }
-    .admin-link:hover { color: var(--text); background: rgba(255,255,255,0.05); }
+    h2 { font-size: 1.25rem; margin-bottom: 12px; font-weight: 700; line-height: 1.3; text-align: center; }
+    p { font-size: 0.92rem; color: var(--text-muted); line-height: 1.5; margin-bottom: 20px; text-align: center; }
 
-    h1, h2, h3 { margin: 0 0 10px 0; font-weight: 700; text-align: center; }
-    h1 { font-size: 1.32rem; color: #fff; }
-    h2 { font-size: 1.15rem; }
-    p { margin: 0 0 16px 0; font-size: 0.92rem; line-height: 1.5; color: var(--text-muted); text-align: center; }
-
-    /* Interactive stimulus boxes */
+    /* Stimulus stages */
     .stimulus-stage {
-      background: #090d16; border: 2px solid var(--border); border-radius: 16px;
-      padding: 24px 16px; margin: 18px 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
-      min-height: 220px; position: relative; user-select: none;
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      height: 230px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 20px;
     }
 
-    /* Picture frame */
+    /* Picture frame stimulus */
     .picture-frame {
-      width: 170px; height: 130px; background: linear-gradient(135deg, #78350f 0%, #451a03 100%);
-      border: 6px solid #b45309; border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.6);
-      display: flex; align-items: center; justify-content: center; cursor: pointer;
-      transition: transform 0.05s linear; position: relative;
+      width: 170px;
+      height: 130px;
+      background: #78350f;
+      border: 6px solid #b45309;
+      border-radius: 4px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.05s ease;
+      cursor: grab;
+      position: relative;
     }
     .picture-inner {
-      width: 138px; height: 98px; background: #0284c7; border-radius: 4px; overflow: hidden;
-      display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; font-size: 0.8rem;
+      width: 146px;
+      height: 106px;
       background: linear-gradient(180deg, #38bdf8 0%, #0369a1 60%, #15803d 60%, #166534 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 0.8rem;
+      font-weight: bold;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.4);
     }
 
     /* Clock stimulus */
+    .clock-stage-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .clock-nail {
+      width: 8px;
+      height: 8px;
+      background: #94a3b8;
+      border-radius: 50%;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+      margin-bottom: 2px;
+      z-index: 2;
+    }
+    .clock-wire {
+      width: 2px;
+      height: 14px;
+      background: #64748b;
+      margin-bottom: -4px;
+      z-index: 1;
+    }
     .clock-frame {
-      width: 120px; height: 120px; border-radius: 50%; background: #f8fafc;
-      border: 8px solid #334155; box-shadow: 0 8px 20px rgba(0,0,0,0.5);
-      position: relative; display: flex; align-items: center; justify-content: center;
-      transition: transform 0.1s ease;
+      width: 136px;
+      height: 136px;
+      border-radius: 18px;
+      background: #f8fafc;
+      border: 8px solid #334155;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+      transform-origin: center center;
+    }
+    .clock-hanger-loop {
+      position: absolute;
+      top: -12px;
+      width: 18px;
+      height: 12px;
+      border: 3px solid #64748b;
+      border-bottom: none;
+      border-radius: 9px 9px 0 0;
+    }
+    .clock-dial-inner {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      border: 1px solid #cbd5e1;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+    }
+    .clock-num {
+      position: absolute;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-weight: 800;
+      font-size: 0.8rem;
+      color: #0f172a;
+      line-height: 1;
+    }
+    .clock-12 { top: 4px; left: 50%; transform: translateX(-50%); }
+    .clock-3  { right: 6px; top: 50%; transform: translateY(-50%); }
+    .clock-6  { bottom: 4px; left: 50%; transform: translateX(-50%); }
+    .clock-9  { left: 6px; top: 50%; transform: translateY(-50%); }
+    .clock-tick {
+      position: absolute;
+      width: 2px;
+      height: 6px;
+      background: #94a3b8;
     }
     .clock-hand-hour {
-      position: absolute; width: 4px; height: 34px; background: #0f172a; top: 26px; left: 50px;
-      transform-origin: bottom center; transform: rotate(45deg); border-radius: 2px;
+      position: absolute;
+      width: 4px;
+      height: 32px;
+      background: #0f172a;
+      top: 23px;
+      left: 53px;
+      transform-origin: bottom center;
+      transform: rotate(55deg);
+      border-radius: 2px;
     }
     .clock-hand-min {
-      position: absolute; width: 3px; height: 46px; background: #ef4444; top: 14px; left: 50.5px;
-      transform-origin: bottom center; transform: rotate(190deg); border-radius: 2px;
+      position: absolute;
+      width: 3px;
+      height: 44px;
+      background: #dc2626;
+      top: 11px;
+      left: 53.5px;
+      transform-origin: bottom center;
+      transform: rotate(200deg);
+      border-radius: 2px;
     }
-    .clock-center { width: 10px; height: 10px; background: #0f172a; border-radius: 50%; position: absolute; }
+    .clock-center {
+      width: 10px;
+      height: 10px;
+      background: #0f172a;
+      border-radius: 50%;
+      position: absolute;
+      z-index: 5;
+    }
 
     /* Bookshelf stimulus */
     .bookshelf-stage {
-      display: flex; align-items: flex-end; justify-content: center; gap: 8px;
-      height: 150px; width: 100%; border-bottom: 8px solid #78350f; padding-bottom: 2px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      gap: 8px;
+      height: 150px;
+      width: 100%;
+      border-bottom: 8px solid #78350f;
+      padding-bottom: 2px;
     }
     .book {
-      width: 32px; border-radius: 3px 3px 0 0; cursor: pointer;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center;
-      font-size: 0.65rem; color: rgba(255,255,255,0.7); writing-mode: vertical-rl;
-      transition: transform 0.2s ease, margin-bottom 0.2s ease;
+      width: 36px;
+      border-radius: 4px 4px 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 700;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      transition: all 0.25s ease;
+      cursor: pointer;
+      user-select: none;
     }
+    .book-aligned { transform: rotate(0deg); }
     .book-misaligned {
-      transform: rotate(14deg) translateY(-14px); border: 2px dashed #f59e0b;
-    }
-    .book-aligned {
-      transform: rotate(0deg) translateY(0); border: none;
+      transform: rotate(-14deg) translateY(-4px);
+      box-shadow: 0 6px 14px rgba(217, 119, 6, 0.4);
+      border: 2px dashed #f59e0b;
     }
 
-    /* Micro adjustment buttons */
-    .stepper-row {
-      display: flex; gap: 8px; width: 100%; margin-top: 10px; justify-content: center;
-    }
-    .step-btn {
-      background: #334155; color: #f8fafc; border: 1px solid var(--border);
-      border-radius: 8px; padding: 8px 12px; font-size: 0.85rem; font-weight: 600; cursor: pointer;
-    }
-    .step-btn:hover { background: #475569; }
-
-    /* Buttons */
+    /* Controls */
     .btn {
-      width: 100%; padding: 13px 18px; border-radius: 12px; border: none;
-      background: var(--primary); color: white; font-size: 0.95rem; font-weight: 600;
-      cursor: pointer; transition: background 0.15s; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%;
+      padding: 14px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
-    .btn:hover { background: var(--primary-hover); }
-    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
-    .btn-secondary { background: #334155; color: #f1f5f9; }
-    .btn-secondary:hover { background: #475569; }
-    .btn-success { background: #10b981; color: white; }
+    .btn:hover { background: var(--accent-hover); }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-main);
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.05); }
+    .btn-success { background: var(--success); }
     .btn-success:hover { background: #059669; }
 
-    /* Sliders */
+    /* Sliders and scales */
     .slider-box {
-      background: #0f172a; border: 1px solid var(--border); border-radius: 12px;
-      padding: 13px; margin-bottom: 14px;
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 16px;
     }
-    .slider-header { display: flex; justify-content: space-between; font-size: 0.88rem; margin-bottom: 8px; line-height: 1.4; }
-    .slider-val { font-weight: 700; color: var(--accent); white-space: nowrap; margin-left: 8px; }
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: #cbd5e1;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+    .slider-val {
+      font-weight: 700;
+      color: #818cf8;
+      font-size: 1.05rem;
+      min-width: 45px;
+      text-align: right;
+    }
     input[type=range] {
-      width: 100%; height: 8px; border-radius: 4px; background: #334155; outline: none; -webkit-appearance: none;
-    }
-    input[type=range]::-webkit-slider-thumb {
-      -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%;
-      background: var(--primary); cursor: pointer; border: 2px solid white;
+      width: 100%;
+      height: 8px;
+      border-radius: 5px;
+      background: #334155;
+      outline: none;
+      -webkit-appearance: none;
+      accent-color: var(--accent);
     }
 
-    /* Rating options for questionnaires */
-    .scale-group {
-      background: #0f172a; border: 1px solid var(--border); border-radius: 12px;
-      padding: 12px 14px; margin-bottom: 12px;
+    .stepper-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
     }
-    .scale-q { font-size: 0.88rem; font-weight: 600; color: #e2e8f0; margin-bottom: 10px; line-height: 1.4; }
-    .scale-options { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+    .step-btn {
+      flex: 1;
+      padding: 10px 4px;
+      background: #1e293b;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: #e2e8f0;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+      text-align: center;
+    }
+    .step-btn:hover { background: #334155; }
+
+    /* Survey question cards */
+    .scale-group {
+      background: #0f172a;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 14px;
+      text-align: left;
+    }
+    .scale-q {
+      font-size: 0.88rem;
+      color: #e2e8f0;
+      margin-bottom: 10px;
+      line-height: 1.4;
+      font-weight: 500;
+    }
+    .scale-options {
+      display: flex;
+      gap: 6px;
+    }
     .scale-btn {
-      padding: 8px 4px; background: #1e293b; border: 1px solid var(--border); border-radius: 8px;
-      color: #cbd5e1; font-size: 0.8rem; font-weight: 600; text-align: center; cursor: pointer;
+      flex: 1;
+      padding: 8px 2px;
+      background: #1e293b;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: #cbd5e1;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s;
     }
     .scale-btn.active {
-      background: var(--primary); color: white; border-color: #818cf8;
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
     }
 
     /* Results comparison cards */
     .metric-row {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 10px 14px; background: #0f172a; border-radius: 10px; margin-bottom: 8px; border: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 14px;
+      background: #0f172a;
+      border-radius: 10px;
+      margin-bottom: 8px;
+      border: 1px solid var(--border);
     }
     .metric-name { font-size: 0.88rem; color: #e2e8f0; }
-    .metric-delta { font-weight: 700; font-size: 0.95rem; }
+    .metric-delta { font-size: 0.95rem; font-weight: 700; }
     .delta-drop { color: #f87171; }
-    .delta-same { color: #818cf8; }
-    .delta-up { color: #34d399; }
+    .delta-same { color: #94a3b8; }
+    .delta-up   { color: #34d399; }
 
-    /* Admin Table */
-    table { width: 100%; border-collapse: collapse; font-size: 0.78rem; margin-top: 12px; }
-    th, td { padding: 8px 6px; text-align: center; border-bottom: 1px solid var(--border); }
-    th { color: var(--text-muted); font-weight: 600; background: #0f172a; }
+    /* Admin table */
+    table { width: 100%; border-collapse: collapse; font-size: 0.75rem; text-align: left; }
+    th, td { padding: 8px 6px; border-bottom: 1px solid var(--border); }
+    th { color: var(--text-muted); font-weight: 600; }
   </style>
 </head>
 <body>
 
-<div class="container">
+<div class="app-container">
   <div class="top-bar">
     <span class="badge" id="top-badge" style="display:none;"></span>
     <span class="admin-link" id="admin-link-btn" onclick="toggleAdminPanel()">📊 Сводка</span>
   </div>
 
-  <!-- SCREEN 1: ВВЕДЕНИЕ -->
+  <!-- SCREEN 1: ВВОДНЫЙ ЭКРАН -->
   <div id="screen-intro">
-    <h1>Исследование зрительного восприятия и сенсорных оценок</h1>
-    <p style="color:#cbd5e1; font-size:0.9rem; line-height:1.5; margin-bottom:14px;">
-      Вам предстоит ответить на несколько кратких вопросов о ваших привычках и особенностях восприятия, а затем выполнить три интерактивных задания с визуальными объектами.
-    </p>
+    <h2>Эксперимент по феномену «Не так» (NJRE)</h2>
+    <p>Исследование психологических мотивов упорядочивания и перцептивного контроля</p>
 
     <div style="background:#0f172a; border:1px solid var(--border); border-radius:12px; padding:12px 14px; margin-bottom:18px; font-size:0.83rem; color:#94a3b8; text-align:left; line-height:1.5;">
-      <div style="font-weight:700; color:#e2e8f0; margin-bottom:4px;">📌 Инструкция для участника —</div>
-      • Отвечайте на вопросы искренне, опираясь на свой привычный жизненный опыт.<br>
-      • В интерактивных заданиях ориентируйтесь на свое непосредственное ощущение «правильности» прямо на экране.
-    </div>
-    
-    <div style="margin: 16px 0;">
-      <label style="display:block; font-size:0.85rem; color:#cbd5e1; margin-bottom:6px;">Анонимный код участника (любые 3 символа)</label>
-      <input type="text" id="subj-code" value="" placeholder="например 418" maxlength="10" 
-             style="width:100%; padding:12px; border-radius:10px; background:#0f172a; border:1px solid var(--border); color:#fff; font-size:1.1rem; text-align:center;">
+      <div style="font-weight:700; color:#e2e8f0; margin-bottom:4px;">ℹ️ О структуре эксперимента</div>
+      В исследовании изучаются два самостоятельных мотива: стремление предотвратить опасность и внутренняя потребность устранить перцептивную незавершенность.<br>
+      Сперва вы ответите на 6 кратких вопросов, после чего выполните 3 интерактивных практических задания.
     </div>
 
-    <button class="btn" onclick="startSurvey()">Перейти к опроснику</button>
+    <div style="margin: 16px 0;">
+      <label style="display:block; font-size:0.85rem; color:#cbd5e1; margin-bottom:6px;">Код участника (любые 3 цифры)</label>
+      <input type="text" id="subj-code" value="" placeholder="Например: 418" maxlength="10" 
+             style="width:100%; padding:12px; background:#0f172a; border:1px solid var(--border); border-radius:10px; color:white; font-size:1rem; text-align:center;">
+    </div>
+
+    <button class="btn" onclick="startSurvey()">Начать исследование</button>
   </div>
 
-  <!-- SCREEN 2: ОПРОСНИК БАЗОВЫХ МОТИВОВ (6 ПУНКТОВ) -->
-  <div id="screen-survey" style="display:none;">
-    <h2>Опросник восприятия и привычек</h2>
-    <p>Оцените, насколько каждое утверждение применимо к вам (от 0 — никогда до 4 — всегда).</p>
+  <!-- SCREEN 2: ОПРОСНИК (ШАГ 1 ИЗ 2: ВОПРОСЫ 1–3) -->
+  <div id="screen-survey-p1" style="display:none;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <span class="badge">Часть 1 из 2</span>
+      <span style="font-size:0.75rem; color:#94a3b8;">Вопросы 1–3 из 6</span>
+    </div>
+    <h2>Первичная самооценка</h2>
+    <p>Оцените, насколько указанные переживания свойственны вам в повседневной жизни</p>
 
-    <!-- Q1 (HA) -->
     <div class="scale-group">
-      <div class="scale-q">1. У меня часто возникает внутреннее предчувствие, будто что-то плохое может произойти.</div>
+      <div class="scale-q">1. Бывает ли у вас ощущение, что если вы не сделаете что-то определенным образом, может произойти беда или несчастье с близкими?</div>
       <div class="scale-options">
         <div class="scale-btn" onclick="setQ('ha1', 0, this)">0<br><span style="font-size:0.65rem;">Никогда</span></div>
         <div class="scale-btn" onclick="setQ('ha1', 1, this)">1<br><span style="font-size:0.65rem;">Редко</span></div>
         <div class="scale-btn active" onclick="setQ('ha1', 2, this)">2<br><span style="font-size:0.65rem;">Иногда</span></div>
         <div class="scale-btn" onclick="setQ('ha1', 3, this)">3<br><span style="font-size:0.65rem;">Часто</span></div>
-        <div class="scale-btn" onclick="setQ('ha1', 4, this)">4<br><span style="font-size:0.65rem;">Всегда</span></div>
+        <div class="scale-btn" onclick="setQ('ha1', 4, this)">4<br><span style="font-size:0.65rem;">Постоянно</span></div>
       </div>
     </div>
 
-    <!-- Q2 (INC) -->
     <div class="scale-group">
-      <div class="scale-q">2. Я часто ловлю себя на неприятном чувстве, что действие выполнено «не так, как надо», даже если внешне все верно.</div>
+      <div class="scale-q">2. Случалось ли вам переделывать привычные действия не из-за опасности, а потому что внутри оставалось неприятное чувство, что все сделано «не так, как надо»?</div>
       <div class="scale-options">
         <div class="scale-btn" onclick="setQ('inc1', 0, this)">0<br><span style="font-size:0.65rem;">Никогда</span></div>
         <div class="scale-btn" onclick="setQ('inc1', 1, this)">1<br><span style="font-size:0.65rem;">Редко</span></div>
         <div class="scale-btn active" onclick="setQ('inc1', 2, this)">2<br><span style="font-size:0.65rem;">Иногда</span></div>
         <div class="scale-btn" onclick="setQ('inc1', 3, this)">3<br><span style="font-size:0.65rem;">Часто</span></div>
-        <div class="scale-btn" onclick="setQ('inc1', 4, this)">4<br><span style="font-size:0.65rem;">Всегда</span></div>
+        <div class="scale-btn" onclick="setQ('inc1', 4, this)">4<br><span style="font-size:0.65rem;">Постоянно</span></div>
       </div>
     </div>
 
-    <!-- Q3 (HA) -->
     <div class="scale-group">
-      <div class="scale-q">3. Даже если риск неприятностей мал, я чувствую необходимость предотвратить его любой ценой.</div>
+      <div class="scale-q">3. Склонны ли вы перепроверять двери, замки или электроприборы из опасения причинить вред или допустить катастрофу?</div>
       <div class="scale-options">
         <div class="scale-btn" onclick="setQ('ha2', 0, this)">0<br><span style="font-size:0.65rem;">Никогда</span></div>
         <div class="scale-btn" onclick="setQ('ha2', 1, this)">1<br><span style="font-size:0.65rem;">Редко</span></div>
         <div class="scale-btn active" onclick="setQ('ha2', 2, this)">2<br><span style="font-size:0.65rem;">Иногда</span></div>
         <div class="scale-btn" onclick="setQ('ha2', 3, this)">3<br><span style="font-size:0.65rem;">Часто</span></div>
-        <div class="scale-btn" onclick="setQ('ha2', 4, this)">4<br><span style="font-size:0.65rem;">Всегда</span></div>
+        <div class="scale-btn" onclick="setQ('ha2', 4, this)">4<br><span style="font-size:0.65rem;">Постоянно</span></div>
       </div>
     </div>
 
-    <!-- Q4 (INC) -->
+    <button class="btn" onclick="nextSurveyPage()">Далее (вопросы 4–6) →</button>
+  </div>
+
+  <!-- SCREEN 2: ОПРОСНИК (ШАГ 2 ИЗ 2: ВОПРОСЫ 4–6) -->
+  <div id="screen-survey-p2" style="display:none;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+      <span class="badge">Часть 2 из 2</span>
+      <span style="font-size:0.75rem; color:#94a3b8;">Вопросы 4–6 из 6</span>
+    </div>
+    <h2>Первичная самооценка</h2>
+    <p>Оцените, насколько указанные переживания свойственны вам в повседневной жизни</p>
+
     <div class="scale-group">
-      <div class="scale-q">4. Когда я заканчиваю дело, во мне часто отсутствует чувство естественного удовлетворения и завершенности.</div>
+      <div class="scale-q">4. Испытываете ли вы раздражение при виде асимметричных, неровно расставленных предметов или опечаток в тексте?</div>
       <div class="scale-options">
         <div class="scale-btn" onclick="setQ('inc2', 0, this)">0<br><span style="font-size:0.65rem;">Никогда</span></div>
         <div class="scale-btn" onclick="setQ('inc2', 1, this)">1<br><span style="font-size:0.65rem;">Редко</span></div>
         <div class="scale-btn active" onclick="setQ('inc2', 2, this)">2<br><span style="font-size:0.65rem;">Иногда</span></div>
         <div class="scale-btn" onclick="setQ('inc2', 3, this)">3<br><span style="font-size:0.65rem;">Часто</span></div>
-        <div class="scale-btn" onclick="setQ('inc2', 4, this)">4<br><span style="font-size:0.65rem;">Всегда</span></div>
+        <div class="scale-btn" onclick="setQ('inc2', 4, this)">4<br><span style="font-size:0.65rem;">Постоянно</span></div>
       </div>
     </div>
 
-    <!-- Q5 (HA) -->
     <div class="scale-group">
-      <div class="scale-q">5. Если в голове возникло тревожное опасение, я совершенно не способен отмахнуться от него.</div>
+      <div class="scale-q">5. Беспокоят ли вас навязчивые мысли о возможном заражении, пожаре или аварии?</div>
       <div class="scale-options">
         <div class="scale-btn" onclick="setQ('ha3', 0, this)">0<br><span style="font-size:0.65rem;">Никогда</span></div>
         <div class="scale-btn" onclick="setQ('ha3', 1, this)">1<br><span style="font-size:0.65rem;">Редко</span></div>
         <div class="scale-btn active" onclick="setQ('ha3', 2, this)">2<br><span style="font-size:0.65rem;">Иногда</span></div>
         <div class="scale-btn" onclick="setQ('ha3', 3, this)">3<br><span style="font-size:0.65rem;">Часто</span></div>
-        <div class="scale-btn" onclick="setQ('ha3', 4, this)">4<br><span style="font-size:0.65rem;">Всегда</span></div>
+        <div class="scale-btn" onclick="setQ('ha3', 4, this)">4<br><span style="font-size:0.65rem;">Постоянно</span></div>
       </div>
     </div>
 
-    <!-- Q6 (INC) -->
     <div class="scale-group">
-      <div class="scale-q">6. Я повторяю действия до тех пор, пока не появится внутреннее ощущение, что теперь все «идеально точно» (just right).</div>
+      <div class="scale-q">6. Возникает ли у вас внутренняя потребность повторять действие до тех пор, пока внутри не возникнет щелчок — чувство «вот теперь точно все завершено»?</div>
       <div class="scale-options">
         <div class="scale-btn" onclick="setQ('inc3', 0, this)">0<br><span style="font-size:0.65rem;">Никогда</span></div>
         <div class="scale-btn" onclick="setQ('inc3', 1, this)">1<br><span style="font-size:0.65rem;">Редко</span></div>
         <div class="scale-btn active" onclick="setQ('inc3', 2, this)">2<br><span style="font-size:0.65rem;">Иногда</span></div>
         <div class="scale-btn" onclick="setQ('inc3', 3, this)">3<br><span style="font-size:0.65rem;">Часто</span></div>
-        <div class="scale-btn" onclick="setQ('inc3', 4, this)">4<br><span style="font-size:0.65rem;">Всегда</span></div>
+        <div class="scale-btn" onclick="setQ('inc3', 4, this)">4<br><span style="font-size:0.65rem;">Постоянно</span></div>
       </div>
     </div>
 
-    <button class="btn" onclick="startTask1()">Перейти к интерактивным заданиям</button>
+    <div style="display:flex; gap:10px;">
+      <button class="btn btn-secondary" style="flex:1;" onclick="prevSurveyPage()">← Назад</button>
+      <button class="btn" style="flex:2;" onclick="startTask1()">К заданиям →</button>
+    </div>
   </div>
 
-  <!-- SCREEN 3: ЗАДАНИЕ 1 — ВИЗУАЛЬНОЕ ВЫРАВНИВАНИЕ (КАРТИНА) -->
+  <!-- SCREEN 3: ЗАДАНИЕ 1 — ВЫРАВНИВАНИЕ ПЕРЕКОШЕННОЙ КАРТИНЫ (КАНОНИЧЕСКИЙ СЛЕПОЙ ТЕСТ) -->
   <div id="screen-task1" style="display:none;">
     <h2>Задание 1 — Визуальное выравнивание</h2>
-    <p>Перед вами картина в рамке, висящая на стене. Оцените свое перцептивное восприятие.</p>
+    <p>Перед вами картина, висящая на стене с перекосом. Выровняйте ее по собственному ощущению идеального баланса.</p>
 
     <div class="stimulus-stage">
       <div class="picture-frame" id="picture-el">
@@ -297,12 +521,12 @@
           <div>Пейзаж</div>
         </div>
       </div>
-      <div id="angle-display" style="font-family:monospace; font-size:0.85rem; color:#94a3b8; margin-top:14px;">
-        Текущий наклон: <b id="angle-val-text">-7.5°</b>
+      <div style="font-size:0.82rem; color:#94a3b8; margin-top:14px; text-align:center;">
+        Ориентируйтесь только на свое зрительное восприятие и чувство гармонии
       </div>
     </div>
 
-    <!-- Initial tension slider (appears before touching) -->
+    <!-- Initial tension slider -->
     <div class="slider-box" id="pre-tension-box">
       <div class="slider-header">
         <span>Насколько сильное напряжение или дискомфорт («не так») вызывает этот перекос прямо сейчас?</span>
@@ -316,10 +540,10 @@
       <div style="font-size:0.85rem; color:#cbd5e1; margin-bottom:8px; text-align:center;">Регулировка положения картины —</div>
       <input type="range" id="pic-slider" min="-15" max="15" step="0.1" value="-7.5" oninput="onAngleSlider(this.value)">
       <div class="stepper-row">
-        <button class="step-btn" onclick="adjustAngle(-1.0)">-1.0°</button>
-        <button class="step-btn" onclick="adjustAngle(-0.1)">-0.1°</button>
-        <button class="step-btn" onclick="adjustAngle(+0.1)">+0.1°</button>
-        <button class="step-btn" onclick="adjustAngle(+1.0)">+1.0°</button>
+        <button class="step-btn" onclick="adjustAngle(-0.8)">◀◀ Влево</button>
+        <button class="step-btn" onclick="adjustAngle(-0.15)">‹ Чуть влево</button>
+        <button class="step-btn" onclick="adjustAngle(+0.15)">Чуть вправо ›</button>
+        <button class="step-btn" onclick="adjustAngle(+0.8)">Вправо ▶▶</button>
       </div>
     </div>
 
@@ -332,19 +556,30 @@
     <p>Перед вами настенные часы, висящие под углом. Кнопка выравнивания заблокирована таймером на 15 секунд.</p>
 
     <div class="stimulus-stage">
-      <div class="clock-frame" id="clock-el" style="transform: rotate(6.5deg);">
-        <div class="clock-hand-hour"></div>
-        <div class="clock-hand-min"></div>
-        <div class="clock-center"></div>
+      <div class="clock-stage-box">
+        <div class="clock-nail"></div>
+        <div class="clock-wire"></div>
+        <div class="clock-frame" id="clock-el" style="transform: rotate(14.5deg);">
+          <div class="clock-hanger-loop"></div>
+          <div class="clock-dial-inner">
+            <div class="clock-num clock-12">12</div>
+            <div class="clock-num clock-3">3</div>
+            <div class="clock-num clock-6">6</div>
+            <div class="clock-num clock-9">9</div>
+            <div class="clock-hand-hour"></div>
+            <div class="clock-hand-min"></div>
+            <div class="clock-center"></div>
+          </div>
+        </div>
       </div>
-      <div id="timer-badge" style="font-family:monospace; font-size:1.1rem; color:#facc15; font-weight:bold; margin-top:14px;">
+      <div id="timer-badge" style="font-family:monospace; font-size:1.05rem; color:#facc15; font-weight:bold; margin-top:14px;">
         ⏱️ Ждите: <span id="timer-countdown">15</span> сек
       </div>
     </div>
 
     <div class="slider-box">
       <div class="slider-header">
-        <span>Пока вы смотрите на неровные часы: оцените уровень вашего текущего напряжения («скрежет от незавершенности») —</span>
+        <span>Пока вы смотрите на перекошенные часы: оцените уровень вашего текущего напряжения («скрежет от незавершенности») —</span>
         <span class="slider-val" id="val-delay-tension">50%</span>
       </div>
       <input type="range" id="delay-tension-slider" min="0" max="100" value="50" oninput="onDelayTensionInput(this.value)">
@@ -369,101 +604,93 @@
         <div class="book book-aligned" style="height:120px; background:#1e3a8a;">Том 5</div>
         <div class="book book-aligned" style="height:125px; background:#172554;">Том 6</div>
       </div>
-      <div id="shelf-status-text" style="font-size:0.85rem; color:#f59e0b; margin-top:14px; font-weight:600;">
-        👉 Нажмите на выбившуюся книгу (Том 4), чтобы поставить ее на место
+      <div id="shelf-status-text" style="font-size:0.85rem; color:#fbbf24; margin-top:14px; font-weight:600;">
+        👆 Нажмите на перекошенную книгу, чтобы поставить ее ровно
       </div>
     </div>
 
-    <div class="slider-box" id="shelf-slider-box" style="display:none;">
+    <div class="slider-box" id="shelf-relief-box" style="display:none;">
       <div class="slider-header">
-        <span>Насколько сильное чувство внутреннего облегчения («щелчок завершенности») вы ощутили после щелчка?</span>
-        <span class="slider-val" id="val-shelf-relief">60%</span>
+        <span>Насколько сильное облегчение («щелчок завершенности») вы почувствовали, когда ряд выровнялся?</span>
+        <span class="slider-val" id="val-shelf-relief">70%</span>
       </div>
-      <input type="range" min="0" max="100" value="60" oninput="document.getElementById('val-shelf-relief').innerText = this.value + '%'; exp.shelfRelief = parseInt(this.value);">
+      <input type="range" min="0" max="100" value="70" oninput="document.getElementById('val-shelf-relief').innerText = this.value + '%'; exp.shelfRelief = parseInt(this.value);">
     </div>
 
-    <button class="btn btn-success" id="btn-finish-all" disabled onclick="finishExperiment()">
-      Завершить исследование и получить отчет
+    <button class="btn btn-success" id="btn-finish-shelf" style="display:none;" onclick="finishExperiment()">
+      Завершить и перейти к обсуждению результатов →
     </button>
   </div>
 
-  <!-- SCREEN 6: ИТОГОВЫЙ ОТЧЕТ И ОБСУЖДЕНИЕ РЕЗУЛЬТАТОВ -->
+  <!-- SCREEN 6: ОБСУЖДЕНИЕ РЕЗУЛЬТАТОВ -->
   <div id="screen-report" style="display:none;">
-    <h2>Результаты и обсуждение эксперимента</h2>
-    <p style="margin-bottom:12px;">Участник <b id="rep-subj"></b> | Профиль — <b id="rep-profile" style="color:#818cf8;"></b></p>
+    <h2>Обсуждение результатов исследования</h2>
+    <p style="margin-bottom:12px;">Участник <b id="rep-subj"></b> | Профиль: <b id="rep-profile" style="color:#818cf8;"></b></p>
 
     <div class="metric-row">
-      <span class="metric-name">Субшкала «Незавершенность» (Incompleteness) —</span>
-      <span class="metric-delta delta-same" id="rep-inc-score">0 / 12</span>
+      <span class="metric-name">Чувство незавершенности (Incompleteness) —</span>
+      <span class="metric-delta delta-up" id="rep-inc-score">0 / 12</span>
     </div>
     <div class="metric-row">
-      <span class="metric-name">Субшкала «Избегание угрозы» (Harm Avoidance) —</span>
-      <span class="metric-delta delta-same" id="rep-ha-score">0 / 12</span>
+      <span class="metric-name">Избегание угрозы (Harm Avoidance) —</span>
+      <span class="metric-delta delta-drop" id="rep-ha-score">0 / 12</span>
     </div>
     <div class="metric-row">
-      <span class="metric-name">Микро-подстройки картины (Осцилляции) —</span>
+      <span class="metric-name">Микро-подстройки картины (осцилляции) —</span>
       <span class="metric-delta" id="rep-osc-val">0 раз</span>
     </div>
     <div class="metric-row">
-      <span class="metric-name">Точность выравнивания угла —</span>
-      <span class="metric-delta delta-up" id="rep-angle-val">0.0°</span>
+      <span class="metric-name">Точность угла картины от нуля —</span>
+      <span class="metric-delta delta-same" id="rep-angle-val">0.0°</span>
     </div>
     <div class="metric-row">
-      <span class="metric-name">Динамика при задержке (Толерантность) —</span>
-      <span class="metric-delta" id="rep-tolerance-val">Стабильно</span>
+      <span class="metric-name">Динамика напряжения при задержке —</span>
+      <span class="metric-delta" id="rep-tolerance-val">—</span>
     </div>
     <div class="metric-row">
-      <span class="metric-name">Общее время прохождения —</span>
+      <span class="metric-name">Длительность прохождения теста —</span>
       <span class="metric-delta delta-same" id="rep-time-val">0 сек</span>
     </div>
 
     <div style="background:#0f172a; border-radius:12px; padding:14px; margin:16px 0; font-size:0.85rem; line-height:1.45; border-left:4px solid var(--accent); color:#cbd5e1;">
-      <b>Обсуждение результатов (Summerfeldt et al., 2014; Coles et al., 2003; Janet, 1903) —</b><br>
-      В отличие от классического страха катастрофы (Harm Avoidance), феномен <b>«Not Just Right» (переживание не так)</b> порождается не тревогой перед опасностью, а сенсорно-аффективным зудом от несовершенства формы.<br><br>
-      Люди с высоким баллом Incompleteness совершают достоверно больше микро-осцилляций в поисках идеального угла и испытывают нарастание напряжения в условиях паузы без возможности немедленно выровнять стимул. В терапии такие клиенты требуют тренировки толерантности к незавершенности, а не привыкания к опасности!
+      <b>Научная модель двух функций (Summerfeldt et al., 2014; Coles et al., 2003; Janet, 1903) —</b><br>
+      В отличие от классической тревоги угрозы (Harm Avoidance), феномен <b>«Not Just Right» (Чувство незавершенности / Incompleteness)</b> сопровождается не тревогой перед катастрофой, а выраженным сенсорно-аффективным дискомфортом и настоятельной потребностью исправить несовершенство формы.<br><br>
+      Люди с высоким баллом по шкале Незавершенности (Incompleteness) совершают значительно больше микро-подстроек при выравнивании предметов, острее реагируют на задержку отклика и получают яркое чувство облегчения («just-right click») при восстановлении симметрии.
     </div>
 
     <div id="save-status" style="font-size:0.82rem; text-align:center; color:var(--text-muted); margin-bottom:14px; min-height:24px;">
-      ⏳ Сохранение результатов...
+      ⏳ Отправка результата в базу данных исследователя...
     </div>
 
-    <button class="btn" style="margin-bottom:10px; background:#10b981;" onclick="copyStudentSummary()">📋 Скопировать строчку с результатом</button>
-    <button class="btn btn-secondary" onclick="restartExperiment()">Пройти еще раз</button>
+    <button class="btn" style="margin-bottom:10px; background:#10b981;" onclick="copyStudentSummary()">📋 Скопировать мои результаты</button>
+    <button class="btn btn-secondary" onclick="restartExperiment()">Пройти заново</button>
   </div>
 
   <!-- SCREEN 7: ПАНЕЛЬ ИССЛЕДОВАТЕЛЯ / СВОДКА -->
   <div id="screen-admin" style="display:none;">
-    <h2>Панель исследователя (Сводка данных)</h2>
+    <h2>Панель исследователя (Сводка)</h2>
     <p>Агрегированные данные участников по феномену «Not Just Right»</p>
 
-    <!-- QR Code for mobile connection -->
     <div style="background:#0f172a; border:1px solid rgba(129,140,248,0.3); border-radius:14px; padding:16px; margin-bottom:16px; text-align:center;">
-      <div style="font-size:0.95rem; font-weight:700; color:#818cf8; margin-bottom:4px;">📲 Ссылка для участников</div>
-      <div style="font-size:0.8rem; color:#94a3b8; margin-bottom:10px;">Участники могут навести камеру смартфона на этот QR-код.</div>
+      <div style="font-size:0.95rem; font-weight:700; color:#818cf8; margin-bottom:4px;">📱 Ссылка для участников</div>
+      <div style="font-size:0.8rem; color:#94a3b8; margin-bottom:10px;">Откройте на смартфонах по ссылке или QR-коду.</div>
       <div style="margin: 0 auto 10px auto; width:150px; height:150px; background:white; padding:6px; border-radius:10px; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(0,0,0,0.3);">
-        <img id="qr-img" src="" alt="QR код для телефона" style="width:100%; height:100%;">
+        <img id="admin-qr-code" src="" alt="QR код для прохождения" style="width:100%; height:100%; border-radius:6px; display:block;">
       </div>
-      <div style="font-size:0.85rem; color:#cbd5e1;">Адрес сайта для ввода вручную —</div>
-      <a id="mobile-url-link" href="#" target="_blank" style="font-family:monospace; font-size:0.92rem; color:#facc15; font-weight:bold; word-break:break-all; display:block; margin-top:4px; text-decoration:underline;">
-        https://jkellydigital-commits.github.io/njre-test/
+      <a id="mobile-url-link" href="#" target="_blank" style="font-family:monospace; font-size:0.82rem; color:#38bdf8; word-break:break-all; text-decoration:none;">
+        Загрузка ссылки...
       </a>
     </div>
 
-    <!-- Export and Refresh action buttons -->
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;">
-      <button class="btn" style="padding:10px 12px; font-size:0.85rem;" onclick="loadGroupData()">🔄 Обновить данные</button>
-      <button class="btn btn-success" style="padding:10px 12px; font-size:0.85rem;" onclick="exportGroupCSV()">📥 Скачать CSV для Google Таблиц</button>
-    </div>
-    
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px;">
-      <a href="https://docs.google.com/spreadsheets/d/16WNtCaBnMpH9YKDX3AGCBv_r7RUiANtL8Yorx-9ei-o/edit" target="_blank" style="color:#818cf8; font-size:0.8rem; text-decoration:underline;">
-        🔗 Открыть Google Таблицу NJRE
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+      <a href="https://docs.google.com/spreadsheets/d/16WNtCaBnMpH9YKDX3AGCBv_r7RUiANtL8Yorx-9ei-o/edit" target="_blank" class="btn" style="width:auto; padding:6px 14px; font-size:0.8rem; background:#0284c7; text-decoration:none;">
+        📊 Открыть Google Таблицу NJRE
       </a>
-      <button class="btn btn-secondary" style="width:auto; padding:6px 14px; font-size:0.8rem;" onclick="closeAdminPanel()">Закрыть панель</button>
+      <button class="btn btn-secondary" style="width:auto; padding:6px 14px; font-size:0.8rem;" onclick="closeAdminPanel()">✕ Закрыть</button>
     </div>
 
     <div id="admin-summary-box" style="background:#0f172a; padding:14px; border-radius:12px; margin-bottom:14px; font-size:0.85rem; border:1px solid var(--border); line-height:1.5;">
-      Загрузка данных...
+      Загрузка сводки...
     </div>
 
     <div style="max-height: 260px; overflow-y: auto; border:1px solid var(--border); border-radius:10px;">
@@ -471,31 +698,39 @@
         <thead>
           <tr>
             <th>Код</th>
+            <th>Профиль</th>
             <th>INC</th>
             <th>HA</th>
-            <th>Осцилл.</th>
-            <th>Угол</th>
-            <th>Δ Задержки</th>
-            <th>Время</th>
+            <th>Осцилляции</th>
+            <th>Точность</th>
           </tr>
         </thead>
-        <tbody id="admin-tbody"></tbody>
+        <tbody id="admin-table-body">
+          <tr><td colspan="6" style="text-align:center; color:var(--text-muted);">Нет данных</td></tr>
+        </tbody>
       </table>
     </div>
+
+    <div style="display:flex; gap:10px; margin-top:14px;">
+      <button class="btn btn-secondary" style="font-size:0.85rem; padding:10px;" onclick="refreshAdminData()">🔄 Обновить сводку</button>
+      <button class="btn btn-secondary" style="font-size:0.85rem; padding:10px;" onclick="downloadDataCSV()">📥 Скачать CSV</button>
+    </div>
   </div>
+
 </div>
 
 <script>
-  // Web Audio Context for realistic tactile clicks
+  // Web Audio Context for subtle tactile feedback
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
   let audioCtx = null;
   function playClickSound(freq = 600, duration = 0.04) {
     try {
-      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (!audioCtx) audioCtx = new AudioCtx();
       const osc = audioCtx.createOscillator();
       const gain = audioCtx.createGain();
-      osc.type = "sine";
+      osc.type = 'sine';
       osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-      gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+      gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
       osc.connect(gain);
       gain.connect(audioCtx.destination);
@@ -505,44 +740,52 @@
   }
 
   // GitHub Repository & Credentials (Obfuscated token prevents automated static scanners)
-  const GH_REPO = 'jkellydigital-commits/njre-test';
   const GH_TOKEN = [77,66,90,117,109,105,100,96,109,19,75,104,83,93,91,27,80,79,79,79,65,19,69,67,92,98,70,68,127,66,80,79,82,100,24,31,27,108,108,101].map(function(c){return String.fromCharCode(c^42);}).join('');
-  const GOOGLE_SPREADSHEET_ID = '16WNtCaBnMpH9YKDX3AGCBv_r7RUiANtL8Yorx-9ei-o';
+  const GH_REPO = 'jkellydigital-commits/njre-test';
 
-  // Experiment State
-  let exp = {
+  // Global Experiment State
+  const exp = {
     subjId: '',
-    startTime: null,
-    endTime: null,
+    startTime: 0,
+    endTime: 0,
     durationSec: 0,
     durationFormatted: '',
-    // Survey
-    ha1: 2, ha2: 2, ha3: 2,
-    inc1: 2, inc2: 2, inc3: 2,
+    
+    // Scale items (0 to 4)
+    ha1: 2,
+    inc1: 2,
+    ha2: 2,
+    inc2: 2,
+    ha3: 2,
+    inc3: 2,
+    
+    // Calculated scores (0 to 12)
     haTotal: 6,
     incTotal: 6,
     profileDesc: '',
-    // Task 1: Picture
-    currentAngle: -7.5,
-    initialAngle: -7.5,
+    
+    // Task 1: Crooked picture
     t1PreTension: 50,
+    initialAngle: -7.5,
+    currentAngle: -7.5,
     oscillations: 0,
     lastZeroSide: -1,
-    t1StartTime: null,
+    t1StartTime: 0,
     t1DurationSec: 0,
+    
     // Task 2: Delay Clock
     delayTensionStart: 50,
     delayTensionEnd: 50,
     deltaDelayTension: 0,
+    
     // Task 3: Bookshelf
-    bookStraightened: false,
-    shelfRelief: 60
+    shelfRelief: 70
   };
 
   let globalLoadedData = [];
 
   function showScreen(screenId) {
-    const screens = ['screen-intro', 'screen-survey', 'screen-task1', 'screen-task2', 'screen-task3', 'screen-report', 'screen-admin'];
+    const screens = ['screen-intro', 'screen-survey-p1', 'screen-survey-p2', 'screen-task1', 'screen-task2', 'screen-task3', 'screen-report', 'screen-admin'];
     screens.forEach(s => {
       const el = document.getElementById(s);
       if (el) el.style.display = (s === screenId) ? 'block' : 'none';
@@ -563,7 +806,17 @@
     const code = document.getElementById('subj-code').value.trim();
     exp.subjId = code || 'N-' + Math.floor(100 + Math.random()*900);
     exp.startTime = Date.now();
-    showScreen('screen-survey');
+    showScreen('screen-survey-p1');
+  }
+
+  function nextSurveyPage() {
+    playClickSound(550, 0.03);
+    showScreen('screen-survey-p2');
+  }
+
+  function prevSurveyPage() {
+    playClickSound(480, 0.03);
+    showScreen('screen-survey-p1');
   }
 
   function setQ(key, val, btnEl) {
@@ -580,11 +833,13 @@
     exp.incTotal = exp.inc1 + exp.inc2 + exp.inc3;
 
     if (exp.incTotal > exp.haTotal + 1) {
-      exp.profileDesc = 'Преобладание незавершенности (Incompleteness / NJRE)';
+      exp.profileDesc = 'Доминирование чувства незавершенности (Incompleteness)';
     } else if (exp.haTotal > exp.incTotal + 1) {
-      exp.profileDesc = 'Преобладание избегания угрозы (Harm Avoidance)';
+      exp.profileDesc = 'Доминирование избегания угрозы (Harm Avoidance)';
+    } else if (exp.incTotal >= 7 && exp.haTotal >= 7) {
+      exp.profileDesc = 'Смешанный мотивационный профиль (Incompleteness + Harm Avoidance)';
     } else {
-      exp.profileDesc = 'Сбалансированный профиль (Смешанный)';
+      exp.profileDesc = 'Низкие показатели по обеим шкалам (норма)';
     }
 
     showScreen('screen-task1');
@@ -623,12 +878,6 @@
   function updatePictureRotation() {
     const el = document.getElementById('picture-el');
     if (el) el.style.transform = `rotate(${exp.currentAngle}deg)`;
-    const txt = document.getElementById('angle-val-text');
-    if (txt) {
-      const sign = exp.currentAngle > 0 ? '+' : '';
-      txt.innerText = `${sign}${exp.currentAngle.toFixed(1)}°`;
-      txt.style.color = Math.abs(exp.currentAngle) < 0.3 ? '#10b981' : '#f59e0b';
-    }
   }
 
   function finishTask1() {
@@ -658,7 +907,7 @@
         btn.disabled = false;
         btn.innerText = '✓ Выровнять часы прямо сейчас';
         btn.style.background = '#10b981';
-        playClickSound(700, 0.06);
+        playClickSound(880, 0.1);
       }
     }, 1000);
   }
@@ -674,47 +923,41 @@
     exp.deltaDelayTension = exp.delayTensionEnd - exp.delayTensionStart;
     setTimeout(() => {
       startTask3();
-    }, 500);
+    }, 600);
   }
 
   // Task 3: Bookshelf
   function startTask3() {
     showScreen('screen-task3');
-    exp.bookStraightened = false;
-    document.getElementById('btn-finish-all').disabled = true;
-    document.getElementById('crooked-book').className = 'book book-misaligned';
-    document.getElementById('shelf-slider-box').style.display = 'none';
-    document.getElementById('shelf-status-text').style.display = 'block';
   }
 
   function straightenBook() {
-    if (exp.bookStraightened) return;
-    exp.bookStraightened = true;
-    playClickSound(880, 0.08);
-    const b = document.getElementById('crooked-book');
-    b.className = 'book book-aligned';
-    document.getElementById('shelf-status-text').innerText = '✓ Книга встала в ровный строй!';
-    document.getElementById('shelf-status-text').style.color = '#10b981';
-    document.getElementById('shelf-slider-box').style.display = 'block';
-    document.getElementById('btn-finish-all').disabled = false;
+    playClickSound(900, 0.07);
+    const book = document.getElementById('crooked-book');
+    book.className = 'book book-aligned';
+    book.style.transform = 'rotate(0deg) translateY(0)';
+    book.style.border = 'none';
+    book.style.background = '#0284c7';
+
+    document.getElementById('shelf-status-text').innerHTML = '✨ Идеальный порядок восстановлен!';
+    document.getElementById('shelf-status-text').style.color = '#34d399';
+    document.getElementById('shelf-relief-box').style.display = 'block';
+    document.getElementById('btn-finish-shelf').style.display = 'block';
   }
 
-  // Finish and Save
-  function utf8ToBase64(str) {
-    return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
-      return String.fromCharCode('0x' + p1);
-    }));
-  }
-
-  async function finishExperiment() {
-    showScreen('screen-report');
+  // Finish and generate report
+  function finishExperiment() {
+    playClickSound(950, 0.1);
     exp.endTime = Date.now();
-    const durationSec = Math.max(1, Math.round(((exp.endTime - (exp.startTime || exp.endTime)) / 1000)));
+    const durationSec = Math.round((exp.endTime - exp.startTime) / 1000);
     exp.durationSec = durationSec;
     const mins = Math.floor(durationSec / 60);
     const secs = durationSec % 60;
-    exp.durationFormatted = mins > 0 ? `${mins} мин ${secs} сек` : `${secs} сек`;
-    const durationShort = `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    const durationFormatted = mins > 0 ? `${mins} мин ${secs} сек` : `${secs} сек`;
+    const durationShort = `${String(mins).padStart(2,'0')}:${String(secs).padStart(2,'0')}`;
+    exp.durationFormatted = durationFormatted;
+
+    showScreen('screen-report');
 
     document.getElementById('rep-subj').innerText = exp.subjId;
     document.getElementById('rep-profile').innerText = exp.profileDesc;
@@ -768,51 +1011,59 @@
       const safeId = String(payload.subj_id).replace(/[^a-zA-Z0-9_-]/g, '_');
       const fileName = `result_${Date.now()}_${safeId}.json`;
       const jsonStr = JSON.stringify(payload, null, 2);
-      const b64 = utf8ToBase64(jsonStr);
+      const b64 = btoa(unescape(encodeURIComponent(jsonStr)));
 
-      const ghUrl = `https://api.github.com/repos/${GH_REPO}/contents/data/${fileName}`;
-      const res = await fetch(ghUrl, {
+      fetch(`https://api.github.com/repos/${GH_REPO}/contents/data/${fileName}`, {
         method: 'PUT',
         headers: {
           'Authorization': 'token ' + GH_TOKEN,
-          'Accept': 'application/vnd.github.v3+json',
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'Accept': 'application/vnd.github.v3+json'
         },
         body: JSON.stringify({
-          message: `Add student result: ${payload.subj_id}`,
-          content: b64
+          message: `Add result: ${payload.subj_id}`,
+          content: b64,
+          branch: 'main'
         })
+      })
+      .then(res => {
+        if (res.ok) {
+          statusEl.innerHTML = '✅ Данные успешно зафиксированы в облачной базе!';
+          statusEl.style.color = '#34d399';
+        } else {
+          statusEl.innerHTML = '💾 Сохранено локально на вашем устройстве.';
+        }
+      })
+      .catch(() => {
+        statusEl.innerHTML = '💾 Сохранено локально на вашем устройстве.';
       });
-      if (res.ok) {
-        savedToCloud = true;
-        statusEl.innerHTML = '✓ Результат успешно отправлен в базу данных исследователя (GitHub)!';
-        statusEl.style.color = '#34d399';
-      }
-    } catch(err) {
-      console.warn('GitHub save failed:', err);
-    }
-
-    if (!savedToCloud) {
-      statusEl.innerHTML = '✓ Результат сохранен в памяти устройства.<br><button class="btn btn-secondary" style="margin-top:8px; padding:6px 12px; font-size:0.8rem;" onclick="downloadLocalCSV()">📥 Скачать CSV с моим результатом</button>';
-      statusEl.style.color = '#cbd5e1';
+    } catch(e){
+      statusEl.innerHTML = '💾 Сохранено локально.';
     }
   }
 
   function copyStudentSummary() {
     const sign = exp.deltaDelayTension > 0 ? '+' : '';
-    const str = `Участник ${exp.subjId} | INC: ${exp.incTotal}/12 | HA: ${exp.haTotal}/12 | Осцилляций: ${exp.oscillations} | ΔЗадержки: ${sign}${exp.deltaDelayTension}% | Время: ${exp.durationFormatted}`;
+    const str = `Участник ${exp.subjId} | Незавершенность (Incompleteness): ${exp.incTotal}/12 | Избегание угрозы (Harm Avoidance): ${exp.haTotal}/12 | Осцилляции: ${exp.oscillations} | Дискомфорт задержки: ${sign}${exp.deltaDelayTension}% | Время: ${exp.durationFormatted}`;
     navigator.clipboard.writeText(str).then(() => {
-      alert('Строка скопирована в буфер обмена!\n\n' + str + '\n\nТеперь ее можно вставить в чат или таблицу.');
+      alert('Результаты скопированы в буфер обмена!
+
+' + str + '
+
+Вы можете отправить их в общий чат семинара.');
     });
   }
 
-  function downloadLocalCSV() {
-    const csvContent = "data:text/csv;charset=utf-8,\uFEFF" + 
-      "Участник;Профиль;Балл_INC;Балл_HA;Осцилляции;Конечный_угол;Дельта_задержки;Облегчение_полки;Длительность_сек;Время_сдачи\n" +
-      `"${exp.subjId}";"${exp.profileDesc}";${exp.incTotal};${exp.haTotal};${exp.oscillations};${Math.abs(exp.currentAngle).toFixed(1)};${exp.deltaDelayTension};${exp.shelfRelief};${exp.durationSec};"${new Date().toLocaleString('ru-RU')}"\n`;
+  function downloadDataCSV() {
+    const csvContent = "data:text/csv;charset=utf-8,﻿" + 
+      "Код;Профиль;Балл_Incompleteness;Балл_Harm_Avoidance;Осцилляции;Точность_угла;Дискомфорт_задержки;Облегчение_порядка;Длительность_сек;Дата_сдачи
+" +
+      `"${exp.subjId}";"${exp.profileDesc}";${exp.incTotal};${exp.haTotal};${exp.oscillations};${Math.abs(exp.currentAngle).toFixed(1)};${exp.deltaDelayTension};${exp.shelfRelief};${exp.durationSec};"${new Date().toLocaleString('ru-RU')}"
+`;
+    const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
-    link.setAttribute("href", encodeURI(csvContent));
-    link.setAttribute("download", `result_njre_${exp.subjId}.csv`);
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `njre_result_${exp.subjId}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -827,166 +1078,127 @@
     showScreen('screen-admin');
     const publicUrl = 'https://jkellydigital-commits.github.io/njre-test/';
     const linkEl = document.getElementById('mobile-url-link');
-    const qrEl = document.getElementById('qr-img');
     if (linkEl) {
       linkEl.href = publicUrl;
       linkEl.innerText = publicUrl;
     }
-    if (qrEl) {
-      qrEl.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(publicUrl)}`;
+    const qrImg = document.getElementById('admin-qr-code');
+    if (qrImg) {
+      qrImg.src = 'https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=' + encodeURIComponent(publicUrl);
     }
-    loadGroupData();
+    loadAdminData();
   }
 
   function closeAdminPanel() {
     showScreen('screen-intro');
   }
 
-  async function loadGroupData() {
+  function refreshAdminData() {
+    loadAdminData();
+  }
+
+  function loadAdminData() {
     const summaryBox = document.getElementById('admin-summary-box');
-    summaryBox.innerHTML = '⏳ Загрузка свежих данных из облака GitHub...';
+    summaryBox.innerHTML = '⏳ Загрузка результатов из базы GitHub...';
 
     let allItems = [];
 
     // 1. Fetch from GitHub data folder
-    try {
-      const res = await fetch(`https://api.github.com/repos/${GH_REPO}/contents/data`, {
-        headers: {
-          'Authorization': 'token ' + GH_TOKEN,
-          'Accept': 'application/vnd.github.v3+json'
-        }
-      });
-      if (res.ok) {
-        const files = await res.json();
-        const jsonFiles = files.filter(f => f.name.endsWith('.json') && !f.name.startsWith('test_001'));
-        
-        const fetched = await Promise.all(jsonFiles.map(async file => {
-          try {
-            const r = await fetch(file.url, {
-              headers: {
-                'Authorization': 'token ' + GH_TOKEN,
-                'Accept': 'application/vnd.github.v3.raw'
-              }
-            });
-            return await r.json();
-          } catch(e) { return null; }
-        }));
-        allItems = fetched.filter(Boolean);
+    fetch(`https://api.github.com/repos/${GH_REPO}/contents/data`, {
+      headers: {
+        'Authorization': 'token ' + GH_TOKEN,
+        'Accept': 'application/vnd.github.v3+json'
       }
-    } catch(err) {
-      console.warn('GitHub fetch failed:', err);
-    }
+    })
+    .then(r => r.ok ? r.json() : [])
+    .then(files => {
+      if (Array.isArray(files) && files.length > 0) {
+        const fetchPromises = files.filter(f => f.name.endsWith('.json')).map(f => {
+          return fetch(f.download_url, {
+            headers: {
+              'Authorization': 'token ' + GH_TOKEN,
+              'Accept': 'application/vnd.github.v3.raw'
+            }
+          })
+          .then(res => res.json())
+          .catch(() => null);
+        });
 
-    // 2. Fallback to LocalStorage
-    if (allItems.length === 0) {
+        Promise.all(fetchPromises).then(items => {
+          allItems = items.filter(it => it && it.subj_id);
+          renderAdminTable(allItems);
+        });
+      } else {
+        // Fallback to local storage if empty
+        try {
+          const localData = JSON.parse(localStorage.getItem('njre_results') || '[]');
+          allItems = localData;
+        } catch(e){}
+        renderAdminTable(allItems);
+      }
+    })
+    .catch(() => {
       try {
         const localData = JSON.parse(localStorage.getItem('njre_results') || '[]');
         allItems = localData;
       } catch(e){}
-    }
-
-    globalLoadedData = allItems;
-    renderTableData(allItems);
+      renderAdminTable(allItems);
+    });
   }
 
-  function renderTableData(data) {
-    const tbody = document.getElementById('admin-tbody');
-    tbody.innerHTML = '';
-    
+  function renderAdminTable(data) {
+    globalLoadedData = data;
+    const tbody = document.getElementById('admin-table-body');
     if (!data || data.length === 0) {
-      document.getElementById('admin-summary-box').innerHTML = 'Пока нет сохраненных результатов в репозитории.';
+      tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:var(--text-muted);">Пока нет отправленных результатов участников</td></tr>';
+      document.getElementById('admin-summary-box').innerHTML = 'В базе пока нет записей участников.';
       return;
     }
 
-    let incScores = [], haScores = [];
-    let oscList = [], tensionDeltas = [];
+    tbody.innerHTML = '';
+    let totalInc = 0;
+    let totalHA = 0;
+    let totalOsc = 0;
+    let totalAngle = 0;
 
-    data.forEach(item => {
-      const inc = item.inc_score || 0;
-      const ha = item.ha_score || 0;
-      const osc = item.oscillations || 0;
-      const dTen = item.delta_delay_tension || 0;
-
-      incScores.push(inc);
-      haScores.push(ha);
-      oscList.push(osc);
-      tensionDeltas.push(dTen);
-
+    data.forEach(row => {
       const tr = document.createElement('tr');
+      const inc = Number(row.inc_score || 0);
+      const ha = Number(row.ha_score || 0);
+      const osc = Number(row.oscillations || 0);
+      const ang = Number(row.final_angle || 0);
+
+      totalInc += inc;
+      totalHA += ha;
+      totalOsc += osc;
+      totalAngle += ang;
+
       tr.innerHTML = `
-        <td style="font-weight:600;">${item.subj_id || 'anon'}</td>
-        <td style="color:#818cf8; font-weight:bold;">${inc}/12</td>
-        <td style="color:#f59e0b;">${ha}/12</td>
+        <td style="font-weight:600;">${row.subj_id || '—'}</td>
+        <td style="font-size:0.7rem; color:#818cf8;">${row.profile || '—'}</td>
+        <td style="color:#34d399; font-weight:bold;">${inc}</td>
+        <td style="color:#f87171; font-weight:bold;">${ha}</td>
         <td>${osc}</td>
-        <td>${item.final_angle || '0.0'}°</td>
-        <td style="color:${dTen > 0 ? '#f87171' : (dTen < 0 ? '#34d399' : '#94a3b8')};">${dTen > 0 ? '+' : ''}${dTen}%</td>
-        <td style="font-size:0.75rem; color:#94a3b8;">${item.duration_short || '—'}</td>
+        <td>${ang.toFixed(1)}°</td>
       `;
       tbody.appendChild(tr);
     });
 
-    const avgInc = (incScores.reduce((a,b)=>a+b,0) / incScores.length).toFixed(1);
-    const avgHa = (haScores.reduce((a,b)=>a+b,0) / haScores.length).toFixed(1);
-    const avgOsc = (oscList.reduce((a,b)=>a+b,0) / oscList.length).toFixed(1);
+    const n = data.length;
+    const avgInc = (totalInc / n).toFixed(1);
+    const avgHA = (totalHA / n).toFixed(1);
+    const avgOsc = (totalOsc / n).toFixed(1);
+    const avgAng = (totalAngle / n).toFixed(2);
 
     document.getElementById('admin-summary-box').innerHTML = `
-      <b>Всего участников в базе —</b> ${data.length} чел.<br><br>
-      <b>Средние профили по шкале Саммерфильд (макс. 12) —</b><br>
-      • Средняя незавершенность (Incompleteness) — <b style="color:#818cf8; font-size:1.05rem;">${avgInc} / 12</b><br>
-      • Среднее избегание угрозы (Harm Avoidance) — <b style="color:#f59e0b; font-size:1.05rem;">${avgHa} / 12</b><br><br>
-      <b>Сенсорный перфекционизм —</b> среднее число микро-подстроек (осцилляций) — <b>${avgOsc} раз</b><br>
-      <i>Данные подтверждают модель Лоры Саммерфильд на вашей аудитории!</i>
+      <b>Всего протестировано участников:</b> ${data.length} чел.<br><br>
+      <b>Средние баллы мотивации (макс. 12):</b><br>
+      • Чувство незавершенности (Incompleteness): <b style="color:#34d399;">${avgInc} / 12</b><br>
+      • Избегание угрозы (Harm Avoidance): <b style="color:#f87171;">${avgHA} / 12</b><br><br>
+      <b>Поведение при выравнивании:</b><br>
+      • Среднее число осцилляций (колебаний баланса): <b>${avgOsc} подстроек</b><br>
+      • Средняя погрешность от математического нуля: <b>${avgAng}°</b>
     `;
-  }
-
-  // Export full group CSV for Google Sheets / Excel
-  function exportGroupCSV() {
-    if (!globalLoadedData || globalLoadedData.length === 0) {
-      alert('Нет данных для экспорта. Нажмите «Обновить данные», чтобы загрузить результаты из GitHub.');
-      return;
-    }
-
-    const headers = [
-      "Код_участника",
-      "Профиль",
-      "Балл_Incompleteness",
-      "Балл_HarmAvoidance",
-      "Осцилляции_картины",
-      "Конечный_угол",
-      "Дельта_напряжения_задержки",
-      "Облегчение_полки",
-      "Длительность_сек",
-      "Время_сдачи"
-    ];
-
-    let csvRows = [];
-    csvRows.push(headers.join(";"));
-
-    globalLoadedData.forEach(row => {
-      const values = [
-        `"${row.subj_id || ''}"`,
-        `"${row.profile || ''}"`,
-        row.inc_score !== undefined ? row.inc_score : '',
-        row.ha_score !== undefined ? row.ha_score : '',
-        row.oscillations !== undefined ? row.oscillations : '',
-        `"${row.final_angle || '0.0'}"`,
-        row.delta_delay_tension !== undefined ? row.delta_delay_tension : '',
-        row.shelf_relief !== undefined ? row.shelf_relief : '',
-        row.duration_sec !== undefined ? row.duration_sec : '',
-        `"${row.timestamp || ''}"`
-      ];
-      csvRows.push(values.join(";"));
-    });
-
-    const csvContent = "\uFEFF" + csvRows.join("\n");
-    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.setAttribute("href", url);
-    link.setAttribute("download", `group_results_njre_${Date.now()}.csv`);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
   }
 </script>
 </body>
